@@ -713,3 +713,10 @@ $('#survey-form').submit(function(){
     $('#survey-dialog').dialog( "close" );
     event.preventDefault();
 })
+
+$(document).ready(function() {
+    $('#permdialog_grouped_permissions_Read_name').attr('title', 'Allows the user access to reading the files contents');
+
+    $(document).tooltip();
+
+});
