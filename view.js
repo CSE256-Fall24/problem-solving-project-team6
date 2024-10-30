@@ -6,38 +6,39 @@
 
 // (recursively) makes and returns an html element (wrapped in a jquery object) for a given file object
 function make_file_element(file_obj) {
-    let file_hash = get_full_path(file_obj)
+    let file_hash = get_full_path(file_obj);
 
     if(file_obj.is_folder) {
         let folder_elem = $(`<div class='folder' id="${file_hash}_div">
             <h3 id="${file_hash}_header">
                 <span class="oi oi-folder" id="${file_hash}_icon"/> ${file_obj.filename} 
-                <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
-                    <span class="oi oi-lock-unlocked" id="${file_hash}_permicon"/> 
+                <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton" title="Update Permissions"> 
+                    <span class="oi oi-cog" id="${file_hash}_permicon"/> 
                 </button>
             </h3>
-        </div>`)
-
+        </div>`);
+        
         // append children, if any:
         if( file_hash in parent_to_children) {
-            let container_elem = $("<div class='folder_contents'></div>")
-            folder_elem.append(container_elem)
-            for(child_file of parent_to_children[file_hash]) {
-                let child_elem = make_file_element(child_file)
-                container_elem.append(child_elem)
+            let container_elem = $("<div class='folder_contents'></div>");
+            folder_elem.append(container_elem);
+            for(let child_file of parent_to_children[file_hash]) {
+                let child_elem = make_file_element(child_file);
+                container_elem.append(child_elem);
             }
         }
-        return folder_elem
+        return folder_elem;
     }
     else {
-        return $(`<div class='file'  id="${file_hash}_div">
+        return $(`<div class='file' id="${file_hash}_div">
             <span class="oi oi-file" id="${file_hash}_icon"/> ${file_obj.filename}
-            <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
-                <span class="oi oi-lock-unlocked" id="${file_hash}_permicon"/> 
+            <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton" title="Update Permissions"> 
+                <span class="oi oi-cog" id="${file_hash}_permicon"/> 
             </button>
-        </div>`)
+        </div>`);
     }
 }
+
 
 for(let root_file of root_files) {
     let file_elem = make_file_element(root_file)
