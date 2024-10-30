@@ -228,6 +228,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         </tr>
     </table>
     `);
+    group_table.css('margin-top', '10px');
 
     if (which_groups === null) {
         which_groups = perm_groupnames;

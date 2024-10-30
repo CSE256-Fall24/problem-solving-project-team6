@@ -36,3 +36,11 @@
 .no-close .ui-dialog-titlebar-close {
     display: none;
 }
+
+/* #permissions_user_title {
+    margin-bottom: 20px;
+} */
+
+#perm_add_user {
+    margin-bottom: 20px; /* Optional: Add space above the Add User button */
+}
