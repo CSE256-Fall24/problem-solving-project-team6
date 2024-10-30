@@ -70,6 +70,53 @@ $('.permbutton').click( function( e ) {
     emitter.dispatchEvent(new CustomEvent('userEvent', { detail: new ClickEntry(ActionEnum.CLICK, (e.clientX + window.pageXOffset), (e.clientY + window.pageYOffset), e.target.id,new Date().getTime()) }))
 });
 
+//CASCADING SELECTION
+$(document).ready(function() {
+    // Cascading selection logic for permissions
+    $('#read_execute_checkbox').change(function() {
+        if (this.checked) {
+            $('#read_checkbox').prop('checked', true);
+        }
+    });
+
+    $('#modify_checkbox').change(function() {
+        if (this.checked) {
+            $('#write_checkbox').prop('checked', true);
+        }
+    });
+
+    $('#full_control_checkbox').change(function() {
+        const checkAll = this.checked;
+        $('#read_checkbox, #write_checkbox, #read_execute_checkbox, #modify_checkbox')
+            .prop('checked', checkAll);
+    });
+
+    $('#read_checkbox').change(function() {
+        if (!this.checked) {
+            $('#read_execute_checkbox, #full_control_checkbox').prop('checked', false);
+        }
+    });
+
+    $('#write_checkbox').change(function() {
+        if (!this.checked) {
+            $('#modify_checkbox, #full_control_checkbox').prop('checked', false);
+        }
+    });
+
+    $('#read_execute_checkbox').change(function() {
+        if (!this.checked) {
+            $('#read_checkbox').prop('checked', false);
+        }
+    });
+
+    $('#modify_checkbox').change(function() {
+        if (!this.checked) {
+            $('#write_checkbox').prop('checked', false);
+        }
+    });
+});
+
+
 
 // ---- Assign unique ids to everything that doesn't have an ID ----
 $('#html-loc').find('*').uniqueId() 
