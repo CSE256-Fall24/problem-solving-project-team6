@@ -715,7 +715,11 @@ $('#survey-form').submit(function(){
 })
 
 $(document).ready(function() {
-    $('#permdialog_grouped_permissions_Read_name').attr('title', 'Allows the user access to reading the files contents');
+    $('#permdialog_grouped_permissions_Read_name').attr('title', 'Allows the user access to view the files contents');
+    $('#permdialog_grouped_permissions_Write_name').attr('title', 'Allows the user to change the contents of the file');
+    $('#permdialog_grouped_permissions_Read_Execute_name').attr('title', 'Allows the user access to view and execute the file');
+    $('#permdialog_grouped_permissions_Modify_name').attr('title', 'Allows the user to change the file')
+    $('#permdialog_grouped_permissions_Full_control_name').attr('title', 'Allows the user full control to the entire file')
 
     $(document).tooltip();
 
