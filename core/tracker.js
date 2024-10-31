@@ -478,6 +478,17 @@ function standardLoad(location, extraWork) {
     });
 }
 
+let userActions = [];
+let undoStack = [];
+let redoStack = [];
+
+function logAction(action) {
+    userActions.push(action);
+    undoStack.push(action);
+    redoStack = []; 
+    alert(`Change logged: ${action}`);
+}
+
 /**
  * Set up document on ready.
  */
