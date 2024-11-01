@@ -41,6 +41,9 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
     }
 })
 
+let change_log_div = $('<div id="change_log" class="section"><h3>Change Log</h3><ul id="change_log_list"></ul></div>');
+perm_dialog.append(change_log_div);
+
 // Make the initial "Object Name:" text:
 // If you pass in valid HTML to $(), it will *create* elements instead of selecting them. (You still have to append them, though)
 obj_name_div = $('<div id="permdialog_objname" class="section">Object Name: <span id="permdialog_objname_namespan"></span> </div>')
