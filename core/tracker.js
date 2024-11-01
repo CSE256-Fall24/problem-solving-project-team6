@@ -19,6 +19,16 @@ function undo() {
     }
 }
 
+function redo() {
+    if (redoStack.length > 0) {
+        const action = redoStack.pop();
+        undoStack.push(action);
+        alert(`Action redone: ${action}`);
+    } else {
+        alert("No actions to redo");
+    }
+}
+
 $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
