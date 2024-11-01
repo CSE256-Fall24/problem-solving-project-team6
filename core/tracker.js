@@ -7,6 +7,7 @@ function logAction(action) {
     undoStack.push(action);
     redoStack = []; 
     alert(`Change logged: ${action}`);
+    updateChangeLog();
 }
 
 function undo() {
@@ -29,8 +30,16 @@ function redo() {
     }
 }
 
+function updateChangeLog() {
+    let changeLogList = $('#change_log_list');
+    changeLogList.empty();
+    userActions.forEach(action => {
+        changeLogList.append(`<li>${action}</li>`);
+    });
+}
+
 document.getElementById('.perm_checkbox').addEventListener('click', () => {
-    logAction('Performed ' + this.checked);
+    logAction('Changed ' + this.id);
 });
 
 $.fn.serializeObject = function () {
