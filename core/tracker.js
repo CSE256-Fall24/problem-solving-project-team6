@@ -29,6 +29,10 @@ function redo() {
     }
 }
 
+document.getElementById('.perm_checkbox').addEventListener('click', () => {
+    logAction('Performed ' + this.checked);
+});
+
 $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
