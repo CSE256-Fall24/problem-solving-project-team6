@@ -1,3 +1,24 @@
+let userActions = [];
+let undoStack = [];
+let redoStack = [];
+
+function logAction(action) {
+    userActions.push(action);
+    undoStack.push(action);
+    redoStack = []; 
+    alert(`Change logged: ${action}`);
+}
+
+function undo() {
+    if (undoStack.length > 0) {
+        const action = undoStack.pop();
+        redoStack.push(action);
+        alert(`Action undone: ${action}`);
+    } else {
+        alert("No actions to undo");
+    }
+}
+
 $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
@@ -476,17 +497,6 @@ function standardLoad(location, extraWork) {
             extraWork();
         }
     });
-}
-
-let userActions = [];
-let undoStack = [];
-let redoStack = [];
-
-function logAction(action) {
-    userActions.push(action);
-    undoStack.push(action);
-    redoStack = []; 
-    alert(`Change logged: ${action}`);
 }
 
 /**
