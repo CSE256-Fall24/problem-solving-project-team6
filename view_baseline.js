@@ -10,6 +10,20 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
     height: 500,
     width: 400,
     buttons: {
+        Undo: {
+            text: "Undo",
+            id: "perm-dialog-undo-button",
+            click: function() {
+                undo();
+            }
+        },
+        Redo: {
+            text: "Redo",
+            id: "perm-dialog-redo-button",
+            click: function() {
+                redo();
+            }
+        },
         OK:{
             text: "OK",
             id: "perm-dialog-ok-button",
