@@ -196,6 +196,7 @@ function define_new_effective_permissions(id_prefix, add_info_col = false, which
                 }
             }
         }
+        
     }
 
     // call update_effective_contents when either username or filepath changes:
@@ -301,6 +302,38 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     group_table.find('.groupcheckbox').change(function() {
         toggle_permission_group(group_table.attr('filepath'), group_table.attr('username'), $(this).attr('group'), $(this).attr('ptype'), $(this).prop('checked'));
         update_group_checkboxes(); // Reload checkboxes
+        let group = $(this).attr('group');
+        let ptype = $(this).attr('ptype');
+        let checked = $(this).prop('checked');
+        let capitalizedPtype = ptype.charAt(0).toUpperCase() + ptype.slice(1);
+        let capitalizedChecked = checked ? 'Checked / On' : 'Unchecked / Off';
+
+        let username = group_table.attr('username');
+        let filepath = group_table.attr('filepath');
+
+        //logAction(`${capitalizedPtype} permission on ${group} changed to ${checked} for ${group_table.attr('username')} on file ${group_table.attr('filepath')}`);
+
+        let logMessage = `
+            <div>
+                Permission Changed
+                <ul style="padding-left: 20px;">
+                    <li><strong>File/Folder:</strong> ${filepath}</li>
+                    <li><strong>User/Group:</strong> ${username}</li>
+                    <li><strong>Permission:</strong> ${group}</li>
+                    <li><strong>Type:</strong> ${capitalizedPtype}</li>
+                    <li><strong>Changed to:</strong> ${capitalizedChecked}</li>
+                </ul>
+            </div>
+        `;
+
+        logAction(logMessage);
+
+        //perm_dialog.dialog('close')
+        //perm_dialog.append($(`<div>$(this).attr('group') changed</p></div>`));
+        // let currfilepath = perm_table.attr('filepath');
+        // perm_dialog.attr('filepath', null)
+        // perm_dialog.attr('filepath', currfilepath)
+        // perm_dialog.dialog('open')
     });
 
     return group_table;

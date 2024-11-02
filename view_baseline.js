@@ -41,8 +41,25 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
     }
 })
 
-let change_log_div = $('<div id="change_log" class="section"><h3>Change Log</h3><ul id="change_log_list"></ul></div>');
-perm_dialog.append(change_log_div);
+let change_log_div = $(`
+    <div id="change_log" class="section">
+        <h3>Change Log</h3>
+        <ul id="change_log_list" style="padding-left: 20px;">
+            <style>
+                #change_log_list li {
+                    margin-bottom: 10px;
+                    padding-bottom: 10px;
+                    margin-left: 0px;
+                    padding-left: 0px;
+                    line-height: 1.5;
+                }
+            </style>
+        </ul>
+        <p id="no_changes_message">No changes made yet.</p>
+        <hr>
+        <br>
+    </div>
+`);
 
 // Make the initial "Object Name:" text:
 // If you pass in valid HTML to $(), it will *create* elements instead of selecting them. (You still have to append them, though)
@@ -118,6 +135,17 @@ let are_you_sure_dialog = define_new_dialog('are_you_sure_dialog', "Are you sure
                 // Update the UI to show that it's been removed:
                 file_permission_users.find('.ui-selected').remove()
                 file_permission_users.unselect() // clear user selection
+                let logMessage = `
+                    <div>
+                        Removed All Permissions for a User/Group on a File/Folder
+                        <ul style="padding-left: 20px;">
+                            <li><strong>User/Group:</strong> ${username}</li>
+                            <li><strong>File/Folder:</strong> ${filepath}</li>
+                        </ul>
+                    </div>
+                `;
+
+                logAction(logMessage);
 
                 // Finally, close this dialog:
                 $( this ).dialog( "close" );
@@ -162,6 +190,7 @@ perm_remove_user_button.click(function(){
 
 
 // --- Append all the elements to the permissions dialog in the right order: --- 
+perm_dialog.append(change_log_div)
 perm_dialog.append(obj_name_div)
 perm_dialog.append($('<div id="permissions_user_title">Select a user or group name to view permissions:</div>'))
 perm_dialog.append(file_permission_users)

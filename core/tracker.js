@@ -5,8 +5,7 @@ let redoStack = [];
 function logAction(action) {
     userActions.push(action);
     undoStack.push(action);
-    redoStack = []; 
-    alert(`Change logged: ${action}`);
+    redoStack = [];
     updateChangeLog();
 }
 
@@ -33,9 +32,14 @@ function redo() {
 function updateChangeLog() {
     let changeLogList = $('#change_log_list');
     changeLogList.empty();
-    userActions.forEach(action => {
-        changeLogList.append(`<li>${action}</li>`);
-    });
+    if (userActions.length === 0) {
+        $('#no_changes_message').show();
+    } else {
+        $('#no_changes_message').hide();
+        userActions.forEach(action => {
+            changeLogList.append(`<li>${action}</li>`);
+        });
+    }
 }
 
 document.getElementById('.perm_checkbox').addEventListener('click', () => {
