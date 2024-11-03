@@ -313,21 +313,16 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
 
         //logAction(`${capitalizedPtype} permission on ${group} changed to ${checked} for ${group_table.attr('username')} on file ${group_table.attr('filepath')}`);
 
-        let logMessage = `
-            <div>
-                Permission Changed
-                <ul style="padding-left: 20px;">
-                    <li><strong>File/Folder:</strong> ${filepath}</li>
-                    <li><strong>User/Group:</strong> ${username}</li>
-                    <li><strong>Permission:</strong> ${group}</li>
-                    <li><strong>Type:</strong> ${capitalizedPtype}</li>
-                    <!--<li><strong>Changed to:</strong> ${capitalizedChecked}</li>-->
-                </ul>
-            </div>
-        `;
-
+        let logMessage = {
+            type: "Permission Changed",
+            file: filepath,
+            username: username,
+            permission: group,
+            status: capitalizedPtype // Include this for consistency
+        };
+        
         logAction(logMessage);
-
+  
         //perm_dialog.dialog('close')
         //perm_dialog.append($(`<div>$(this).attr('group') changed</p></div>`));
         // let currfilepath = perm_table.attr('filepath');

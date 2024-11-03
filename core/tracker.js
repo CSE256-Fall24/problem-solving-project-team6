@@ -41,7 +41,7 @@ function updateChangeLog() {
     } else {
         $('#no_changes_message').hide();
         userActions.forEach(action => {
-            changeLogList.append(`<li>${formatActionMessage(action)}</li>`);
+            changeLogList.append(`<li>${formatActionMessage(action, "", true)}</li>`);
         });
     }
 }
@@ -58,7 +58,7 @@ function formatActionMessage(action, status = "", isForChangeLog = false) {
     if (typeof action === 'object') {
         if (isForChangeLog) {
             // Return formatted HTML for change log
-            return `Action ${status}: ${action.type}<br>
+            return `<strong>Action ${status}:</strong> ${action.type}<br>
                     <strong>File/Folder:</strong> ${action.file}<br>
                     <strong>User/Group:</strong> ${action.username}<br>
                     <strong>Permission:</strong> ${action.permission}<br>
