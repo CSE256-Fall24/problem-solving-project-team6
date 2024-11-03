@@ -208,7 +208,44 @@
                 <script src="view.js"></script>
             </div>
         </div>
+        <button id="userGuideButton" class="ui-button ui-widget ui-corner-all">User Guide</button>
     </div>
+    <!-- User Guide Modal -->
+    <div id="userGuideModal" class="user-guide-modal">
+        <div class="user-guide-content">
+            <span class="user-guide-close">&times;</span>
+            <h2>User Guide</h2>
+            <p>This guide provides instructions for managing file permissions:</p>
+            <ul>
+                <li><i class="fa fa-cog"></i> Click the <strong>gear icons</strong> to access the file permissions for any file or folder.</li>
+                <li>To adjust permissions, select a user from the list and update the allow/deny checkboxes.</li>
+                <li>Use the "Advanced" button for detailed permission settings and inheritance options.</li>
+                <li>Ensure that changes are saved using the "Save Changes" button to keep them applied.</li>
+                <li>Refer to the "Effective Permissions" tab for a summary of user access.</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        // JavaScript for handling the User Guide modal
+        const userGuideModal = document.getElementById('userGuideModal');
+        const userGuideButton = document.getElementById('userGuideButton');
+        const closeUserGuide = document.getElementsByClassName('user-guide-close')[0];
+
+        userGuideButton.onclick = function() {
+            userGuideModal.style.display = 'block';
+        };
+
+        closeUserGuide.onclick = function() {
+            userGuideModal.style.display = 'none';
+        };
+
+        window.onclick = function(event) {
+            if (event.target == userGuideModal) {
+                userGuideModal.style.display = 'none';
+            }
+        };
+    </script>
+
     <script id="log_model_script" src="core/entry_model.js">
     </script>
     <script id="page_history_script" src="core/page_history.js">
@@ -217,6 +254,96 @@
     </script>
     <script id="script-added-for-256" src="core/tracker.js">
     </script>
+     <style>
+        #user-guide-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #user-guide-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        #user-guide-modal h2 {
+            margin-top: 0;
+        }
+        #user-guide-modal ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        #user-guide-modal ul li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        #user-guide-modal ul li i {
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+        #modal-close-button {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .user-guide-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-guide-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .user-guide-close:hover,
+        .user-guide-close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </body>
 
 </html>

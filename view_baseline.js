@@ -17,10 +17,10 @@ perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
             }
         },
         {
-            text: "Redo",
-            id: "perm-dialog-redo-button",
+            text: "Reset",
+            id: "perm-dialog-reset-button",
             click: function () {
-                redo();
+                reset();
             }
         },
         {
@@ -45,7 +45,7 @@ perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
         $(this).parent().find('.ui-dialog-buttonpane .button-container').append('<div class="right-buttons"></div>');
 
         // Move the buttons to their respective containers
-        $('#perm-dialog-undo-button, #perm-dialog-redo-button').appendTo('.left-buttons');
+        $('#perm-dialog-undo-button, #perm-dialog-reset-button').appendTo('.left-buttons');
         $('#perm-dialog-ok-button, #perm-dialog-advanced-button').appendTo('.right-buttons');
 
         // Reapply the blue-button class to ensure the OK button is styled correctly

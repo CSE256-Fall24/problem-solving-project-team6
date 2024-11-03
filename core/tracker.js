@@ -9,6 +9,38 @@ function logAction(action) {
     updateChangeLog();
 }
 
+function reset() {
+    // Clear all the user actions, undo, and redo stacks
+    userActions = [];
+    undoStack = [];
+    redoStack = [];
+
+    // Uncheck only checkboxes that are not marked as saved
+    $('input[type="checkbox"]').each(function() {
+        if (!$(this).data('saved')) {
+            $(this).prop('checked', false);
+        }
+    });
+
+    // Update the change log to reflect the reset state
+    updateChangeLog();
+
+    // Show a message to indicate that all changes have been reset
+    alert("All changes have been reset.");
+}
+
+function saveChanges() {
+    // Mark current state of checked checkboxes as saved
+    $('input[type="checkbox"]').each(function() {
+        if ($(this).prop('checked')) {
+            $(this).data('saved', true);
+        }
+    });
+
+    alert("Changes have been saved.");
+}
+
+
 function undo() {
     if (undoStack.length > 0) {
         const action = undoStack.pop();
@@ -21,7 +53,8 @@ function undo() {
         const checkbox = $(checkboxSelector);
 
         if (checkbox.length > 0) {
-            checkbox.prop('checked', action.checked).trigger('change'); // Trigger change event to update UI
+            // Revert the checkbox state to the opposite of what the action changed it to
+            checkbox.prop('checked', !action.checked).trigger('change'); // Trigger change event to update UI
         } else {
             console.warn(`Checkbox with selector ${checkboxSelector} not found.`);
         }
@@ -32,28 +65,6 @@ function undo() {
     }
 }
 
-function redo() {
-    if (redoStack.length > 0) {
-        const action = redoStack.pop();
-        undoStack.push(action);
-        userActions.push();
-        updateChangeLog();
-
-        // Update checkbox state based on the redone action
-        const checkboxSelector = `#permdialog_grouped_permissions_${action.permission}_${action.ptype}_checkbox`;
-        const checkbox = $(checkboxSelector);
-
-        if (checkbox.length > 0) {
-            checkbox.prop('checked', action.checked).trigger('change'); // Trigger change event to update UI
-        } else {
-            console.warn(`Checkbox with selector ${checkboxSelector} not found.`);
-        }
-
-        alert(formatActionMessage(action, "redone"));
-    } else {
-        alert("No actions to redo");
-    }
-}
 
 
 function updateChangeLog() {
