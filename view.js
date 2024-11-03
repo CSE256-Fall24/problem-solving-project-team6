@@ -45,9 +45,6 @@ for(let root_file of root_files) {
     $( "#filestructure" ).append( file_elem);    
 }
 
-// const groups = ['employee1', 'employee', 'employee3', 'employee4', 'administrator', 'new_manager']
-
-
 // make folder hierarchy into an accordion structure
 $('.folder').accordion({
     collapsible: true,
@@ -122,33 +119,3 @@ $(document).ready(function() {
 // ---- Assign unique ids to everything that doesn't have an ID ----
 $('#html-loc').find('*').uniqueId() 
 
-function getPermissionsClicked(groups) {
-    const permissionsAllow = [];
-    const permissionsDeny = [];
-
-    $(`#${groups}_permissions input[type=checkbox]`).each (function(){
-        const permissions = $(this).attr('permissions');
-        const allDen = $(this).attr('allowDeny');
-
-        if($(this).is(':checked')) {
-            if(allDen == 'allow') {
-                permissionsAllow.push(permissions);
-            } else if (allDen == 'deny') {
-                permissionsDeny.push(permissions);
-            }
-        }
-    });
-    return { allowed : permissionsAllow, deny : permissionsDeny};
-}
-
-$(document).on('mouseenter', '#permdialog_file_user_list .ui-widget-content', function(event) {
-    const groups = $(this).attr('name');
-    const permissions = getPermissionsClicked(groups);
-    
-});
-
-const tooltipHover = `
-    <strong> Allowed: </strong> ${permissions.allow.join(', ') || 'None'} <br> 
-    <strong> Denied: </strong> ${permissions.deny.join(', ') || 'None'}
-`;
-    
