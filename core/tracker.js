@@ -58,16 +58,24 @@ function redo() {
 
 function updateChangeLog() {
     let changeLogList = $('#change_log_list');
-    changeLogList.empty();
+    changeLogList.empty(); // Clear current list
+    
     if (userActions.length === 0) {
         $('#no_changes_message').show();
     } else {
         $('#no_changes_message').hide();
-        userActions.forEach(action => {
+        userActions.forEach((action, index) => {
+            // Append the action as a list item
             changeLogList.append(`<li>${formatActionMessage(action, "", true)}</li>`);
+            
+            // Append a horizontal line after each item except the last one
+            if (index < userActions.length - 1) {
+                changeLogList.append('<hr>');
+            }
         });
     }
 }
+
 
 // Utility function to format action messages
 /*function formatActionMessage(action, status = "") {
