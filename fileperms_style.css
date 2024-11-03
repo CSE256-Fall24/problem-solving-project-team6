@@ -7,9 +7,9 @@
     margin-bottom: 5px;
 }
 
-.ui-selected { 
-    background: #007fff; 
-    color: white; 
+.ui-selected {
+    background: #007fff;
+    color: white;
 }
 
 .footer {
@@ -23,7 +23,7 @@
     position: absolute;
     width: 99%;
     bottom: 0px;
-    top:unset;
+    top: unset;
     left: 0;
     background-color: #eee;
     z-index: 100;
@@ -42,5 +42,6 @@
 } */
 
 #perm_add_user {
-    margin-bottom: 20px; /* Optional: Add space above the Add User button */
+    margin-bottom: 20px;
+    /* Optional: Add space above the Add User button */
 }

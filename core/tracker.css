@@ -1,4 +1,5 @@
 @import url('banner.css');
+
 * {
     margin: 0;
     padding: 0;
@@ -27,4 +28,9 @@
 
 .top-banner-button:hover {
     background-color: rgb(255, 97, 40);
+}
+
+div#ui-id-45 {
+    margin: 20px;
+    margin-left: 25px;
 }

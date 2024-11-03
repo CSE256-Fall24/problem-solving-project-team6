@@ -13,6 +13,8 @@ function undo() {
     if (undoStack.length > 0) {
         const action = undoStack.pop();
         redoStack.push(action);
+        userActions.pop();
+        updateChangeLog();
         alert(`Action undone: ${action}`);
     } else {
         alert("No actions to undo");
@@ -23,6 +25,8 @@ function redo() {
     if (redoStack.length > 0) {
         const action = redoStack.pop();
         undoStack.push(action);
+        userActions.push();
+        updateChangeLog();
         alert(`Action redone: ${action}`);
     } else {
         alert("No actions to redo");
@@ -451,8 +455,8 @@ function attachFormListener2() {
         console.log("USER DATA for: " + userData.tag);
         console.log(JSON.stringify(userData));
         alert(
-                    'Open the dev console to see user data. '
-                );
+            'Open the dev console to see user data. '
+        );
         // const resp = await fetch(gate, {
         //     method: 'POST',
         //     headers: {
