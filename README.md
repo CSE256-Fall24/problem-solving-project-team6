@@ -8,7 +8,7 @@ Push to repo...
 - Edited strength of important components
 - Fixed distance of pop up window distance to the banner at the top
 
-Jalen Patel - Changes
+Jalen Patel - Changes (sorry for the poor formatting, it's in bullets on preview)
 	⁃	brainstormed initial implementation of logging/displaying changes and adding undo/redo features - using stacks, getElementById, addEventListener, etc.
 	⁃	created stacks for userActions, undoStack, and redoStack in tracker.js
 	⁃	added getElementById to call logAction whenever a permission checkbox state is changed by adding eventListeners on objects in the ".perm_checkbox" class (initial log solution) 
