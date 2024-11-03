@@ -6,43 +6,59 @@ show_starter_dialogs = false // set this to "false" to disable the survey and 3-
 // --- Create all the elements, and connect them as needed: ---
 // Make permissions dialog:
 perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
-    // The following are standard jquery-ui options. See https://jqueryui.com/dialog/
     height: 600,
     width: 600,
-    buttons: {
-        Undo: {
+    buttons: [
+        {
             text: "Undo",
             id: "perm-dialog-undo-button",
             click: function () {
                 undo();
             }
         },
-        Redo: {
+        {
             text: "Redo",
             id: "perm-dialog-redo-button",
             click: function () {
                 redo();
             }
         },
-        OK: {
+        {
             text: "OK",
             id: "perm-dialog-ok-button",
             click: function () {
                 $(this).dialog("close");
-            },
-            class: "blue-button"
+            }
         },
-        Advanced: {
+        {
             text: "Advanced",
             id: "perm-dialog-advanced-button",
             click: function () {
-                open_advanced_dialog(perm_dialog.attr('filepath'))
+                open_advanced_dialog(perm_dialog.attr('filepath'));
             }
         }
-    }
-})
+    ],
+    create: function () {
+        // Wrap buttons in left and right containers
+        $(this).parent().find('.ui-dialog-buttonpane').wrapInner('<div class="button-container" style="width: 100%; display: flex; justify-content: space-between;"></div>');
+        $(this).parent().find('.ui-dialog-buttonpane .button-container').prepend('<div class="left-buttons"></div>');
+        $(this).parent().find('.ui-dialog-buttonpane .button-container').append('<div class="right-buttons"></div>');
 
-$("<style type='text/css'> .blue-button { background-color: #3d7de3; color: white; } </style>").appendTo("head");
+        // Move the buttons to their respective containers
+        $('#perm-dialog-undo-button, #perm-dialog-redo-button').appendTo('.left-buttons');
+        $('#perm-dialog-ok-button, #perm-dialog-advanced-button').appendTo('.right-buttons');
+
+        // Reapply the blue-button class to ensure the OK button is styled correctly
+        $('#perm-dialog-ok-button').addClass('blue-button');
+    }
+});
+
+// Add CSS for styling
+$("<style type='text/css'> \n\
+    .blue-button { background-color: #3d7de3; color: white; } \n\
+</style>").appendTo("head");
+
+
 
 let change_log_div = $(`
     <div id="change_log" class="section">

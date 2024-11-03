@@ -15,6 +15,17 @@ function undo() {
         redoStack.push(action);
         userActions.pop();
         updateChangeLog();
+
+        // Update checkbox state based on the undone action
+        const checkboxSelector = `#permdialog_grouped_permissions_${action.permission}_${action.ptype}_checkbox`;
+        const checkbox = $(checkboxSelector);
+
+        if (checkbox.length > 0) {
+            checkbox.prop('checked', action.checked).trigger('change'); // Trigger change event to update UI
+        } else {
+            console.warn(`Checkbox with selector ${checkboxSelector} not found.`);
+        }
+
         alert(formatActionMessage(action, "undone"));
     } else {
         alert("No actions to undo");
@@ -27,11 +38,23 @@ function redo() {
         undoStack.push(action);
         userActions.push();
         updateChangeLog();
+
+        // Update checkbox state based on the redone action
+        const checkboxSelector = `#permdialog_grouped_permissions_${action.permission}_${action.ptype}_checkbox`;
+        const checkbox = $(checkboxSelector);
+
+        if (checkbox.length > 0) {
+            checkbox.prop('checked', action.checked).trigger('change'); // Trigger change event to update UI
+        } else {
+            console.warn(`Checkbox with selector ${checkboxSelector} not found.`);
+        }
+
         alert(formatActionMessage(action, "redone"));
     } else {
         alert("No actions to redo");
     }
 }
+
 
 function updateChangeLog() {
     let changeLogList = $('#change_log_list');
@@ -79,19 +102,24 @@ function formatActionMessage(action, status = "", isForChangeLog = false) {
 
 
 // Example structured action log for logging
-function logStructuredAction(username, file, permission, status) {
+function logStructuredAction(username, file, permission, ptype, checked) {
     const action = {
         username: username,
         file: file,
         permission: permission,
-        status: status
+        ptype: ptype,
+        checked: checked // true or false, depending on the action
     };
     logAction(action);
 }
 
-document.getElementById('.perm_checkbox').addEventListener('click', () => {
-    logAction('Changed ' + this.id);
+
+document.querySelectorAll('.perm_checkbox').forEach(checkbox => {
+    checkbox.addEventListener('click', function () {
+        logAction('Changed ' + this.id);
+    });
 });
+
 
 $.fn.serializeObject = function () {
     var o = {};

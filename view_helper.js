@@ -330,6 +330,21 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         // perm_dialog.attr('filepath', currfilepath)
         // perm_dialog.dialog('open')
     });
+    /*group_table.find('.groupcheckbox').change(function() {
+        toggle_permission_group(group_table.attr('filepath'), group_table.attr('username'), $(this).attr('group'), $(this).attr('ptype'), $(this).prop('checked'));
+        update_group_checkboxes(); // Reload checkboxes
+    
+        let group = $(this).attr('group');
+        let ptype = $(this).attr('ptype');
+        let checked = $(this).prop('checked');
+    
+        let username = group_table.attr('username');
+        let filepath = group_table.attr('filepath');
+    
+        // Log the structured action when a change is made
+        logStructuredAction(username, filepath, group, ptype, checked);
+    });*/
+    
 
     return group_table;
 }
@@ -464,6 +479,19 @@ function define_permission_checkboxes(id_prefix, which_permissions = null) {
         toggle_permission(filepath, username, permission, ptype, checked);
         update_perm_table();
     });
+    /*perm_table.find('.perm_checkbox').change(function() {
+        const filepath = perm_table.attr('filepath');
+        const username = perm_table.attr('username');
+        const permission = $(this).attr('permission');
+        const ptype = $(this).attr('ptype');
+        const checked = $(this).prop('checked');
+    
+        toggle_permission(filepath, username, permission, ptype, checked);
+        update_perm_table(); // Refresh UI with updated permission states
+    
+        // Log the structured action for individual permission changes
+        logStructuredAction(username, filepath, permission, ptype, checked);
+    });*/
 
     return perm_table;
 }
