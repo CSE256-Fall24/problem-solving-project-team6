@@ -231,6 +231,15 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     `);
     group_table.css('margin-top', '10px');
 
+    group_table.find(`#${id_prefix}_header_allow`).css({
+        "color": "green",
+        "text-align": "center !important"
+    });
+    group_table.find(`#${id_prefix}_header_deny`).css({
+        "color": "red",
+        "text-align": "center !important"
+    });
+
     if (which_groups === null) {
         which_groups = perm_groupnames;
     }
