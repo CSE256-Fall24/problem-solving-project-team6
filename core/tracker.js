@@ -15,7 +15,7 @@ function undo() {
         redoStack.push(action);
         userActions.pop();
         updateChangeLog();
-        alert(`Action undone: ${action}`);
+        alert(formatActionMessage(action, "undone"));
     } else {
         alert("No actions to undo");
     }
@@ -27,7 +27,7 @@ function redo() {
         undoStack.push(action);
         userActions.push();
         updateChangeLog();
-        alert(`Action redone: ${action}`);
+        alert(formatActionMessage(action, "redone"));
     } else {
         alert("No actions to redo");
     }
@@ -41,9 +41,52 @@ function updateChangeLog() {
     } else {
         $('#no_changes_message').hide();
         userActions.forEach(action => {
-            changeLogList.append(`<li>${action}</li>`);
+            changeLogList.append(`<li>${formatActionMessage(action)}</li>`);
         });
     }
+}
+
+// Utility function to format action messages
+/*function formatActionMessage(action, status = "") {
+    if (typeof action === 'string') {
+        return `Action ${status}: ${action}`;
+    }
+
+    return `Action ${status}: User ${action.username} had ${action.permission} updated to ${action.status} on ${action.file}`;
+}*/
+function formatActionMessage(action, status = "", isForChangeLog = false) {
+    if (typeof action === 'object') {
+        if (isForChangeLog) {
+            // Return formatted HTML for change log
+            return `Action ${status}: ${action.type}<br>
+                    <strong>File/Folder:</strong> ${action.file}<br>
+                    <strong>User/Group:</strong> ${action.username}<br>
+                    <strong>Permission:</strong> ${action.permission}<br>
+                    <strong>Type:</strong> ${action.status}`;
+        }
+        else {
+            // Return plain text for alerts
+            return `Action ${status}: ${action.type}
+            File/Folder: ${action.file}
+            User/Group: ${action.username}
+            ermission: ${action.permission}
+            Type: ${action.status}`;
+        }
+    }
+    return `Action ${status}: ${action}`; // Fallback for any legacy string actions
+}
+
+
+
+// Example structured action log for logging
+function logStructuredAction(username, file, permission, status) {
+    const action = {
+        username: username,
+        file: file,
+        permission: permission,
+        status: status
+    };
+    logAction(action);
 }
 
 document.getElementById('.perm_checkbox').addEventListener('click', () => {

@@ -7,8 +7,8 @@ show_starter_dialogs = false // set this to "false" to disable the survey and 3-
 // Make permissions dialog:
 perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
     // The following are standard jquery-ui options. See https://jqueryui.com/dialog/
-    height: 500,
-    width: 400,
+    height: 600,
+    width: 600,
     buttons: {
         Undo: {
             text: "Undo",
@@ -29,7 +29,8 @@ perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
             id: "perm-dialog-ok-button",
             click: function () {
                 $(this).dialog("close");
-            }
+            },
+            class: "blue-button"
         },
         Advanced: {
             text: "Advanced",
@@ -41,9 +42,14 @@ perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
     }
 })
 
+$("<style type='text/css'> .blue-button { background-color: #3d7de3; color: white; } </style>").appendTo("head");
+
 let change_log_div = $(`
     <div id="change_log" class="section">
+        <br>
+        <hr>
         <h3>Change Log</h3>
+        <hr>
         <ul id="change_log_list" style="padding-left: 20px;">
             <style>
                 #change_log_list li {
@@ -189,7 +195,7 @@ perm_remove_user_button.click(function () {
 
 
 // --- Append all the elements to the permissions dialog in the right order: --- 
-perm_dialog.append(change_log_div)
+//perm_dialog.append(change_log_div)
 perm_dialog.append(obj_name_div)
 perm_dialog.append($('<div id="permissions_user_title">Select a user or group name to view permissions:</div>'))
 perm_dialog.append(file_permission_users)
@@ -197,6 +203,7 @@ perm_dialog.append(perm_add_user_select)
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
 perm_dialog.append(grouped_permissions)
 perm_dialog.append(advanced_expl_div)
+perm_dialog.append(change_log_div)
 
 // --- Additional logic for reloading contents when needed: ---
 //Define an observer which will propagate perm_dialog's filepath attribute to all the relevant elements, whenever it changes:

@@ -321,7 +321,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
                     <li><strong>User/Group:</strong> ${username}</li>
                     <li><strong>Permission:</strong> ${group}</li>
                     <li><strong>Type:</strong> ${capitalizedPtype}</li>
-                    <li><strong>Changed to:</strong> ${capitalizedChecked}</li>
+                    <!--<li><strong>Changed to:</strong> ${capitalizedChecked}</li>-->
                 </ul>
             </div>
         `;
