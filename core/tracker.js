@@ -92,7 +92,7 @@ function formatActionMessage(action, status = "", isForChangeLog = false) {
             return `Action ${status}: ${action.type}
             File/Folder: ${action.file}
             User/Group: ${action.username}
-            ermission: ${action.permission}
+            Permission: ${action.permission}
             Type: ${action.status}`;
         }
     }
