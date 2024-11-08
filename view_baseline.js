@@ -3,6 +3,52 @@ show_starter_dialogs = false // set this to "false" to disable the survey and 3-
 
 // ---- Set up main Permissions dialog ----
 
+// Capture the tag parameter from the URL to identify the selected scenario
+const urlParams = new URLSearchParams(window.location.search); // Changed to 'urlParams'
+const scenarioTag = urlParams.get('tag');
+
+let initialPermissionsData = {}; // Object to hold initial permissions data
+
+// Function to load scenario-specific initial permissions data
+function loadInitialPermissions(tag) {
+    // Dynamically load the appropriate scenario file based on the tag
+    const scenarioFilePath = `./scenario-configs/${tag}.js`;
+    
+    $.getScript(scenarioFilePath)
+        .done(() => {
+            console.log(`Loaded configuration for ${tag}`);
+
+            // Assuming `files` and other permission variables are declared in the scenario file
+            if (typeof files !== 'undefined') {
+                initialPermissionsData = files.map(file => {
+                    return {
+                        name: file.name,
+                        owner: file.owner,
+                        acl: file.acl,
+                        inherited: file.using_permission_inheritance,
+                        isFolder: file.is_folder
+                    };
+                });
+            }
+
+            console.log("Initial Permissions Data:", initialPermissionsData);
+        })
+        .fail(() => {
+            console.error(`Failed to load configuration for ${tag}`);
+        });
+}
+
+// Run this function on page load to set up the scenario permissions
+$(document).ready(() => {
+    if (scenarioTag) {
+        loadInitialPermissions(scenarioTag); // Load initial permissions based on the scenario tag
+    } else {
+        console.error("No scenario tag provided in the URL.");
+    }
+});
+
+
+
 // --- Create all the elements, and connect them as needed: ---
 // Make permissions dialog:
 perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
