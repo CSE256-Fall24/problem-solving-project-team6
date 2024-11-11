@@ -217,7 +217,8 @@
             <h2>User Guide</h2>
             <p>This guide provides instructions for managing file permissions:</p>
             <ul>
-                <li><i class="fa fa-cog"></i> Click the <strong>gear icons</strong> to access the file permissions for any file or folder.</li>
+                <li><i class="fa fa-cog"></i> Click the <strong>gear icons</strong> to access the file permissions for
+                    any file or folder.</li>
                 <li>To adjust permissions, select a user from the list and update the allow/deny checkboxes.</li>
                 <li>Use the "Advanced" button for detailed permission settings and inheritance options.</li>
                 <li>Ensure that changes are saved using the "Save Changes" button to keep them applied.</li>
@@ -231,15 +232,15 @@
         const userGuideButton = document.getElementById('userGuideButton');
         const closeUserGuide = document.getElementsByClassName('user-guide-close')[0];
 
-        userGuideButton.onclick = function() {
+        userGuideButton.onclick = function () {
             userGuideModal.style.display = 'block';
         };
 
-        closeUserGuide.onclick = function() {
+        closeUserGuide.onclick = function () {
             userGuideModal.style.display = 'none';
         };
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == userGuideModal) {
                 userGuideModal.style.display = 'none';
             }
@@ -254,7 +255,7 @@
     </script>
     <script id="script-added-for-256" src="core/tracker.js">
     </script>
-     <style>
+    <style>
         #user-guide-button {
             position: fixed;
             top: 10px;
@@ -286,6 +287,7 @@
         #user-guide-modal h2 {
             margin-top: 0;
         }
+
         #user-guide-modal ul {
             list-style-type: none;
             padding-left: 0;
@@ -320,10 +322,12 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
+
         .user-guide-content {
             background-color: #fff;
             margin: 15% auto;
-            padding: 20px;
+            margin-top: 5%;
+            padding: 25px;
             border: 1px solid #888;
             width: 80%;
             max-width: 600px;

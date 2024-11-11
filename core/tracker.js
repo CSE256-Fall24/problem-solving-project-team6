@@ -16,7 +16,7 @@ function reset() {
     redoStack = [];
 
     // Uncheck only checkboxes that are not marked as saved
-    $('input[type="checkbox"]').each(function() {
+    $('input[type="checkbox"]').each(function () {
         if (!$(this).data('saved')) {
             $(this).prop('checked', false);
         }
@@ -31,7 +31,7 @@ function reset() {
 
 function saveChanges() {
     // Mark current state of checked checkboxes as saved
-    $('input[type="checkbox"]').each(function() {
+    $('input[type="checkbox"]').each(function () {
         if ($(this).prop('checked')) {
             $(this).data('saved', true);
         }
@@ -55,6 +55,11 @@ function undo() {
         if (checkbox.length > 0) {
             // Revert the checkbox state to the opposite of what the action changed it to
             checkbox.prop('checked', !action.checked).trigger('change'); // Trigger change event to update UI
+
+            // Optionally, if there's a data-saving aspect, reset the 'saved' data attribute as well
+            if (!action.checked) {
+                checkbox.data('saved', false);
+            }
         } else {
             console.warn(`Checkbox with selector ${checkboxSelector} not found.`);
         }
@@ -70,7 +75,7 @@ function undo() {
 function updateChangeLog() {
     let changeLogList = $('#change_log_list');
     changeLogList.empty(); // Clear current list
-    
+
     if (userActions.length === 0) {
         $('#no_changes_message').show();
     } else {
@@ -78,7 +83,7 @@ function updateChangeLog() {
         userActions.forEach((action, index) => {
             // Append the action as a list item
             changeLogList.append(`<li>${formatActionMessage(action, "", true)}</li>`);
-            
+
             // Append a horizontal line after each item except the last one
             if (index < userActions.length - 1) {
                 changeLogList.append('<hr>');

@@ -13,7 +13,7 @@ let initialPermissionsData = {}; // Object to hold initial permissions data
 function loadInitialPermissions(tag) {
     // Dynamically load the appropriate scenario file based on the tag
     const scenarioFilePath = `./scenario-configs/${tag}.js`;
-    
+
     $.getScript(scenarioFilePath)
         .done(() => {
             console.log(`Loaded configuration for ${tag}`);
@@ -77,7 +77,7 @@ perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
             }
         },
         {
-            text: "Advanced",
+            text: "Advanced Permissions",
             id: "perm-dialog-advanced-button",
             click: function () {
                 open_advanced_dialog(perm_dialog.attr('filepath'));

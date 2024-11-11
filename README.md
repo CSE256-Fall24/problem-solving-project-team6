@@ -8,6 +8,10 @@ Push to repo...
 - Edited strength of important components
 - Fixed distance of pop up window distance to the banner at the top
 
+11/10 - Jonas Schwab:
+- Changed 'Advanced' button to 'Advanced Permissions' to improve scent.
+- Failed to change hover states or undo button functionality
+
 Jalen Patel - Changes (sorry for the poor formatting, it's in bullets on preview)
 	⁃	brainstormed initial implementation of logging/displaying changes and adding undo/redo features - using stacks, getElementById, addEventListener, etc.
 	⁃	created stacks for userActions, undoStack, and redoStack in tracker.js

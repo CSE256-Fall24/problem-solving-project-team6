@@ -8,12 +8,12 @@
 
 // define an observer which will call the passed on_attr_change function when the watched_attribute of watched_elem_selector 
 // (more precisely, the first element that matches watched_elem_selector; will not work as intended if the selector selects more than one thing.)
-function define_attribute_observer(watched_elem_selector, watched_attribute, on_attr_change = function(new_value){}){
+function define_attribute_observer(watched_elem_selector, watched_attribute, on_attr_change = function (new_value) { }) {
     // set up the observer:
-    let attribute_observer = new MutationObserver(function(mutationsList, observer){
-        for(let mutation of mutationsList) {
-            if(mutation.type === 'attributes') {
-                if(mutation.attributeName === watched_attribute) {
+    let attribute_observer = new MutationObserver(function (mutationsList, observer) {
+        for (let mutation of mutationsList) {
+            if (mutation.type === 'attributes') {
+                if (mutation.attributeName === watched_attribute) {
                     // call the function for processing of the attribute change:
                     on_attr_change(watched_elem_selector.attr(watched_attribute))
                 }
@@ -21,7 +21,7 @@ function define_attribute_observer(watched_elem_selector, watched_attribute, on_
         }
     })
     let watched_element = watched_elem_selector.get(0) // get the DOM element associated with the selector
-    attribute_observer.observe(watched_element, {attributes: true})
+    attribute_observer.observe(watched_element, { attributes: true })
 
 }
 
@@ -32,15 +32,15 @@ function define_attribute_observer(watched_elem_selector, watched_attribute, on_
 // Make an element for a user - this element would usually go into a selectable list of users. 
 // The element automatically creates an icon which varies based on whether it's a singular user or a group, 
 // and also adds any attributes you pass along
-function make_user_elem(id_prefix, uname, user_attributes=null) {
+function make_user_elem(id_prefix, uname, user_attributes = null) {
     user_elem = $(`<div class="ui-widget-content" id="${id_prefix}_${uname}" name="${uname}">
-        <span id="${id_prefix}_${uname}_icon" class="oi ${is_user(all_users[uname])?'oi-person':'oi-people'}"/> 
+        <span id="${id_prefix}_${uname}_icon" class="oi ${is_user(all_users[uname]) ? 'oi-person' : 'oi-people'}"/> 
         <span id="${id_prefix}_${uname}_text">${uname} </span>
     </div>`)
 
     if (user_attributes) {
         // if we need to add the user's attributes: go through the properties for that user and add each as an attribute to user_elem.
-        for(uprop in user_attributes) {
+        for (uprop in user_attributes) {
             user_elem.attr(uprop, user_attributes[uprop])
         }
     }
@@ -53,9 +53,9 @@ function make_user_elem(id_prefix, uname, user_attributes=null) {
 // optionally, adds all the properties listed for a given user as attributes for that user's element.
 function make_user_list(id_prefix, usermap, add_attributes = false) {
     let u_elements = []
-    for(uname in usermap){
+    for (uname in usermap) {
         // make user element; if add_attributes is true, pass along usermap[uname] for attribute creation.
-        user_elem = make_user_elem(id_prefix, uname, add_attributes ? usermap[uname] : null )
+        user_elem = make_user_elem(id_prefix, uname, add_attributes ? usermap[uname] : null)
         u_elements.push(user_elem)
     }
     return u_elements
@@ -79,19 +79,19 @@ function make_user_list(id_prefix, usermap, add_attributes = false) {
 // - title is a string which will go in the title area of the dialog box
 // - options is a set of jquery-ui options
 // - returns the dialog jquery object
-function define_new_dialog(id_prefix, title='', options = {}){
+function define_new_dialog(id_prefix, title = '', options = {}) {
     let default_options = {
         appendTo: "#html-loc",
         autoOpen: false,
         modal: true,
         position: { my: "top", at: "top", of: $('#html-loc') },
     }
-    
+
     // add default options - do not override ones that are already specified.
-    for(let d_o in default_options){
-        if(!(d_o in options)){
+    for (let d_o in default_options) {
+        if (!(d_o in options)) {
             options[d_o] = default_options[d_o];
-        } 
+        }
     }
 
     let dialog = $(`<div id="${id_prefix}" title="${title}"></div>`).dialog(options)
@@ -107,31 +107,31 @@ function define_new_dialog(id_prefix, title='', options = {}){
 //    the string from the 'name' attribute of the selected item (probably the only thing you need);
 //    the selection event;
 //    and the actual HTML element of the selected item
-function define_single_select_list(id_prefix, on_selection_change = function(selected_item_name, e, ui){}) {
+function define_single_select_list(id_prefix, on_selection_change = function (selected_item_name, e, ui) { }) {
     let select_list = $(`<div id="${id_prefix}" style="overflow-y:scroll"></div>`).selectable({
-        selected: function(e, ui) { 
+        selected: function (e, ui) {
 
             // Unselect any previously selected (normally, selectable allows multiple selections)
             $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
-            
+
             // store info about what item was selected:
             selected_item_name = $(ui.selected).attr('name')
-            $( this ).attr('selected_item', selected_item_name)
+            $(this).attr('selected_item', selected_item_name)
 
             on_selection_change(selected_item_name, e, ui)
 
-            emitter.dispatchEvent(new CustomEvent('userEvent', { 
+            emitter.dispatchEvent(new CustomEvent('userEvent', {
                 detail: new ClickEntry(
-                    ActionEnum.CLICK, 
-                    (e.clientX + window.pageXOffset), 
-                    (e.clientY + window.pageYOffset), 
-                    `${$( this ).attr('id')} selected: ${selected_item_name}`,
-                    new Date().getTime()) 
+                    ActionEnum.CLICK,
+                    (e.clientX + window.pageXOffset),
+                    (e.clientY + window.pageYOffset),
+                    `${$(this).attr('id')} selected: ${selected_item_name}`,
+                    new Date().getTime())
             }))
         }
     })
 
-    select_list.unselect = function() {
+    select_list.unselect = function () {
         select_list.find('.ui-selectee').removeClass('ui-selected')
         on_selection_change('', null, null)
     }
@@ -139,7 +139,7 @@ function define_single_select_list(id_prefix, on_selection_change = function(sel
     return select_list
 }
 
- 
+
 // define an element which will display effective permissions for a given file and user
 // It expects the file path to be stored in its *filepath* attribute, 
 // and the user name to be stored in its *username* attribute 
@@ -147,16 +147,16 @@ function define_single_select_list(id_prefix, on_selection_change = function(sel
 // - id_prefix is a (required) unique string which will be prepended to all the generated elements.
 // - add_info_col is a boolean for whether you want a third column with "info" buttons (which do nothing by default)
 // - returns the jquery object for the effective permissions panel, ready to be attached/appended anywhere you want it.
-function define_new_effective_permissions(id_prefix, add_info_col = false, which_permissions = null){
+function define_new_effective_permissions(id_prefix, add_info_col = false, which_permissions = null) {
     // Set up the table:
     let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)
-    
+
     // If no subset of permissions is passed in, use all of them.
-    if(which_permissions === null) {
+    if (which_permissions === null) {
         which_permissions = Object.values(permissions)
     }
     // add a row for each permission:
-    for(let p of which_permissions) {
+    for (let p of which_permissions) {
         let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
         let row = $(`
         <tr id="${id_prefix}_row_${p_id}" permission_name="${p}" permission_id="${p_id}">
@@ -165,7 +165,7 @@ function define_new_effective_permissions(id_prefix, add_info_col = false, which
         </tr>
         `)
         // If we want to add an additional info column (which does nothing by default)
-        if(add_info_col) {
+        if (add_info_col) {
             row.append(`
             <td id="${id_prefix}_${p_id}_info_cell" width="32px" style="text-align:right">
                 <span id="${id_prefix}_${p_id}_info_icon" class="fa fa-info-circle perm_info" permission_name="${p}" setting_container_id="${id_prefix}"/>
@@ -175,34 +175,34 @@ function define_new_effective_permissions(id_prefix, add_info_col = false, which
     }
 
     // Define how to update contents on attribute change:
-    let update_effective_contents = function(){
+    let update_effective_contents = function () {
         // get current settings:
         let username = effective_container.attr('username')
         let filepath = effective_container.attr('filepath')
         // if both properties are set correctly:
-        if( username && username.length > 0 && (username in all_users) &&
+        if (username && username.length > 0 && (username in all_users) &&
             filepath && filepath.length > 0 && (filepath in path_to_file)) {
             //clear out the checkboxes:
             effective_container.find(`.effectivecheckcell`).empty()
 
             // Set checkboxes correctly for given file and user:
-            for(let p of which_permissions) {
+            for (let p of which_permissions) {
                 let p_id = p.replace(/[ \/]/g, '_') //get jquery-readable id
                 // if the actual model would allow an action with permission
-                if( allow_user_action(path_to_file[filepath], all_users[username], p)) {
+                if (allow_user_action(path_to_file[filepath], all_users[username], p)) {
                     // This action is allowed. Find the checkbox cell and put a checkbox there.
                     let this_checkcell = effective_container.find(`#${id_prefix}_checkcell_${p_id}`)
                     this_checkcell.append(`<span id="${id_prefix}_checkbox_${p_id}" class="oi oi-check"/>`)
                 }
             }
         }
-        
+
     }
 
     // call update_effective_contents when either username or filepath changes:
     define_attribute_observer(effective_container, 'username', update_effective_contents)
     define_attribute_observer(effective_container, 'filepath', update_effective_contents)
-    
+
     return effective_container
 }
 
@@ -249,7 +249,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         let row = $(`<tr id="${id_prefix}_row_${g}">
             <td id="${id_prefix}_${g}_name">${g}</td>
         </tr>`);
-        
+
         // For each permission type ('allow' and 'deny'), add checkboxes with tooltips
         for (let ace_type of ['allow', 'deny']) {
             const title = tooltipMessages[g] || ''; // Set the tooltip message
@@ -257,7 +257,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
                 <input type="checkbox" id="${id_prefix}_${g}_${ace_type}_checkbox" ptype="${ace_type}" class="groupcheckbox" group="${g}" title="${title}">
             </td>`);
         }
-        
+
         group_table.append(row);
     }
 
@@ -268,7 +268,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     group_table.find('.groupcheckbox').prop('disabled', true);
 
     // Update checkboxes when either user or file changes
-    let update_group_checkboxes = function() {
+    let update_group_checkboxes = function () {
         // Get current settings
         let username = group_table.attr('username');
         let filepath = group_table.attr('filepath');
@@ -276,7 +276,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         // If both properties are set correctly, enable checkboxes and apply permissions
         if (username && username.length > 0 && (username in all_users) &&
             filepath && filepath.length > 0 && (filepath in path_to_file)) {
-            
+
             // Clear previous checkbox state
             group_table.find('.groupcheckbox').prop('disabled', false).prop('checked', false);
             group_table.find('.groupcheckbox[group="Special_permissions"]').prop('disabled', true); // Disable special permissions
@@ -308,7 +308,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     define_attribute_observer(group_table, 'filepath', update_group_checkboxes);
 
     // Update permissions when a checkbox is clicked
-    group_table.find('.groupcheckbox').change(function() {
+    group_table.find('.groupcheckbox').change(function () {
         toggle_permission_group(group_table.attr('filepath'), group_table.attr('username'), $(this).attr('group'), $(this).attr('ptype'), $(this).prop('checked'));
         update_group_checkboxes(); // Reload checkboxes
         let group = $(this).attr('group');
@@ -329,9 +329,9 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
             permission: group,
             status: capitalizedPtype // Include this for consistency
         };
-        
+
         logAction(logMessage);
-  
+
         //perm_dialog.dialog('close')
         //perm_dialog.append($(`<div>$(this).attr('group') changed</p></div>`));
         // let currfilepath = perm_table.attr('filepath');
@@ -353,7 +353,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         // Log the structured action when a change is made
         logStructuredAction(username, filepath, group, ptype, checked);
     });*/
-    
+
 
     return group_table;
 }
@@ -384,7 +384,7 @@ function define_permission_checkboxes(id_prefix, which_permissions = null) {
 
     // Define which permissions to use
     const permissions = which_permissions || ["read", "write", "read_execute", "modify", "full_control", "special_permissions"];
-    
+
     // For each permission, create a row with checkboxes and tooltips
     permissions.forEach(permission => {
         let row = $(`<tr id="${id_prefix}_row_${permission}">
@@ -400,53 +400,53 @@ function define_permission_checkboxes(id_prefix, which_permissions = null) {
     });
 
     // Initialize tooltips
-    perm_table.find('.perm_checkbox').tooltip();
+    //perm_table.find('.perm_checkbox').tooltip();
 
     // Cascading selection logic for the permissions checkboxes
-    $('#read_execute_allow_checkbox').change(function() {
+    $('#read_execute_allow_checkbox').change(function () {
         if (this.checked) {
             $('#read_allow_checkbox').prop('checked', true);
         }
     });
 
-    $('#modify_allow_checkbox').change(function() {
+    $('#modify_allow_checkbox').change(function () {
         if (this.checked) {
             $('#write_allow_checkbox').prop('checked', true);
         }
     });
 
-    $('#full_control_allow_checkbox').change(function() {
+    $('#full_control_allow_checkbox').change(function () {
         const checkAll = this.checked;
         $('#read_allow_checkbox, #write_allow_checkbox, #read_execute_allow_checkbox, #modify_allow_checkbox')
             .prop('checked', checkAll);
     });
 
-    $('#read_allow_checkbox').change(function() {
+    $('#read_allow_checkbox').change(function () {
         if (!this.checked) {
             $('#read_execute_allow_checkbox, #full_control_allow_checkbox').prop('checked', false);
         }
     });
 
-    $('#write_allow_checkbox').change(function() {
+    $('#write_allow_checkbox').change(function () {
         if (!this.checked) {
             $('#modify_allow_checkbox, #full_control_allow_checkbox').prop('checked', false);
         }
     });
 
-    $('#read_execute_allow_checkbox').change(function() {
+    $('#read_execute_allow_checkbox').change(function () {
         if (!this.checked) {
             $('#read_allow_checkbox').prop('checked', false);
         }
     });
 
-    $('#modify_allow_checkbox').change(function() {
+    $('#modify_allow_checkbox').change(function () {
         if (!this.checked) {
             $('#write_allow_checkbox').prop('checked', false);
         }
     });
 
     // Function to update permissions when checkbox state changes
-    let update_perm_table = function() {
+    let update_perm_table = function () {
         // Get current settings
         let username = perm_table.attr('username');
         let filepath = perm_table.attr('filepath');
@@ -478,7 +478,7 @@ function define_permission_checkboxes(id_prefix, which_permissions = null) {
     define_attribute_observer(perm_table, 'filepath', update_perm_table);
 
     // Update permissions when checkbox state changes
-    perm_table.find('.perm_checkbox').change(function() {
+    perm_table.find('.perm_checkbox').change(function () {
         const filepath = perm_table.attr('filepath');
         const username = perm_table.attr('username');
         const permission = $(this).attr('permission');
@@ -507,9 +507,9 @@ function define_permission_checkboxes(id_prefix, which_permissions = null) {
 
 
 // Define a list of permission groups for a given file, for all users
-function define_file_permission_groups_list(id_prefix){
+function define_file_permission_groups_list(id_prefix) {
 
-    let perm_list= $(`
+    let perm_list = $(`
         <table id="${id_prefix}" class="ui-widget-content" width="100%">
             <tr id="${id_prefix}_header">
                 <th id="${id_prefix}_header_type">Type</th>
@@ -520,27 +520,27 @@ function define_file_permission_groups_list(id_prefix){
         </table>
     `)
 
-    let update_perm_list = function(){
+    let update_perm_list = function () {
         $(`#${id_prefix} tr:gt(0)`).remove() // remove all old permission stuff - all but the first (title) row of the table.
 
         let filepath = perm_list.attr('filepath')
         console.log(filepath)
 
-        if(filepath && filepath.length > 0 && (filepath in path_to_file)) {
+        if (filepath && filepath.length > 0 && (filepath in path_to_file)) {
 
             console.log('filepath')
 
             let file_obj = path_to_file[filepath]
             let users = get_file_users(file_obj)
-            for(let u in users) {
+            for (let u in users) {
                 let grouped_perms = get_grouped_permissions(file_obj, u)
-                for(let ace_type in grouped_perms) {
-                    for(let perm in grouped_perms[ace_type]) {
+                for (let ace_type in grouped_perms) {
+                    for (let perm in grouped_perms[ace_type]) {
                         perm_list.append(`<tr id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}">
                             <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${ace_type}</td>
                             <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_name">${u}</td>
                             <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_permission">${perm}</td>
-                            <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${grouped_perms[ace_type][perm].inherited?"Parent Object":"(not inherited)"}</td>
+                            <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${grouped_perms[ace_type][perm].inherited ? "Parent Object" : "(not inherited)"}</td>
                         </tr>`)
                     }
                 }
@@ -570,14 +570,14 @@ user_select_dialog = define_new_dialog('user_select_dialog2', 'Select User', {
         Cancel: {
             text: "Cancel",
             id: "user_select_cancel_button",
-            click: function() {
-                $( this ).dialog( "close" );
+            click: function () {
+                $(this).dialog("close");
             },
         },
         OK: {
             text: "OK",
             id: "user_select_ok_button",
-            click: function() {
+            click: function () {
                 // When "OK" is clicked, we want to populate some other element with the selected user name 
                 //(to pass along the selection information to whoever opened this dialog)
                 let to_populate_id = $(this).attr('to_populate') // which field do we need to populate?
@@ -585,7 +585,7 @@ user_select_dialog = define_new_dialog('user_select_dialog2', 'Select User', {
                 let selected_value = all_users_selectlist.attr('selected_item') // what is the user name that was selected?
                 // console.log("selected item " + selected_value);
                 $(`#${to_populate_id}`).attr('selected_user', selected_value) // populate the element with the id
-                $( this ).dialog( "close" );
+                $(this).dialog("close");
             }
         }
     }
@@ -607,7 +607,7 @@ function open_user_select_dialog(to_populate_id) {
 // - id_prefix is the required id prefix that will be attached to all element ids.
 // - select_button_text is the text that will go on the button
 // - on_user_change is an additional function you can pass in, which will be called each time a user is selected.
-function define_new_user_select_field(id_prefix, select_button_text, on_user_change = function(selected_user){}){
+function define_new_user_select_field(id_prefix, select_button_text, on_user_change = function (selected_user) { }) {
     // Make the element:
     let sel_section = $(`<div id="${id_prefix}_line" class="section">
             <span id="${id_prefix}_field" class="ui-widget-content" style="width: 80%;display: inline-block;">&nbsp</span>
@@ -615,13 +615,13 @@ function define_new_user_select_field(id_prefix, select_button_text, on_user_cha
         </div>`)
 
     // Open user select on button click:
-    sel_section.find(`#${id_prefix}_button`).click(function(){
+    sel_section.find(`#${id_prefix}_button`).click(function () {
         open_user_select_dialog(`${id_prefix}_field`)
     })
 
     // Set up an observer to watch the attribute change and change the field
     let field_selector = sel_section.find(`#${id_prefix}_field`)
-    define_attribute_observer(field_selector, 'selected_user', function(new_username){
+    define_attribute_observer(field_selector, 'selected_user', function (new_username) {
         field_selector.text(new_username)
         // call the function for additional processing of user change:
         on_user_change(new_username)
@@ -637,16 +637,16 @@ function get_explanation_text(explanation) {
     return `
     Action allowed?: ${explanation.is_allowed}; 
     Because of
-    permission set for file: ${explanation.file_responsible?get_full_path(explanation.file_responsible):'N/A'}
-    and for user: ${ explanation.ace_responsible ? get_user_name(explanation.ace_responsible.who) : 'N/A' }
-    ${ explanation.text_explanation ? `(${explanation.text_explanation})`  : '' }
+    permission set for file: ${explanation.file_responsible ? get_full_path(explanation.file_responsible) : 'N/A'}
+    and for user: ${explanation.ace_responsible ? get_user_name(explanation.ace_responsible.who) : 'N/A'}
+    ${explanation.text_explanation ? `(${explanation.text_explanation})` : ''}
     `
 }
 
 //---- some universal HTML set-up so you don't have to do it in each wrapper.html ----
 $('#filestructure').css({
-    'display':'inline-block',
-    'width':'49%',
+    'display': 'inline-block',
+    'width': '49%',
     'vertical-align': 'top'
 })
 $('#filestructure').after('<div id="sidepanel" style="display:inline-block;width:49%"></div>')
