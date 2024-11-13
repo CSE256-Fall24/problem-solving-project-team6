@@ -131,11 +131,20 @@ let change_log_div = $(`
 
 // Make the initial "Object Name:" text:
 // If you pass in valid HTML to $(), it will *create* elements instead of selecting them. (You still have to append them, though)
-obj_name_div = $('<div id="permdialog_objname" class="section">Object Path: <strong><span id="permdialog_objname_namespan"></span></strong> </div>')
+
+// Create the dropdown for Object Path with a smaller width and adjusted font size for options
+let objectPathDropdown = $(`
+    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <label for="objectPathSelect" style="font-weight: bold; margin-right: 5px; font-size: 12.5px;">Object Path:</label>
+        <select id="objectPathSelect" style="width: 60%; padding: 1px; font-size: 12px;">
+            <option value="/C/presentation_documents">/C/presentation_documents</option>
+            <!-- Add more paths here if needed -->
+        </select>
+    </div>
+`);
 
 //Make the div with the explanation about special permissions/advanced settings:
-advanced_expl_div = $('<div id="permdialog_advanced_explantion_text">For <strong>special permissions</strong> or <strong>advanced settings</strong>, click <strong>Advanced</strong>.</div>')
-
+advanced_expl_div = $('<div id="permdialog_advanced_explantion_text" style="margin-top: 15px;"><strong><span style="color: blue;">Step 3:</span></strong> For <strong>special permissions</strong> or <strong>advanced settings</strong>, click <strong>Advanced</strong>.</div>');
 // Make the (grouped) permission checkboxes table:
 grouped_permissions = define_grouped_permission_checkboxes('permdialog_grouped_permissions')
 grouped_permissions.addClass('section') // add a 'section' class to the grouped_permissions element. This class adds a bit of spacing between this element and the next.
@@ -149,21 +158,33 @@ file_permission_users.css({
     'height': '80px',
 })
 
+
+// Create a container div for the Add User button with a specific ID for styling
+let perm_add_user_container = $('<div id="perm_add_user_container"></div>');
+
 // Make button to add a new user to the list:
 perm_add_user_select = define_new_user_select_field('perm_add_user', 'Add User', on_user_change = function (selected_user) {
-    // console.log("add...")
-    let filepath = perm_dialog.attr('filepath')
+    let filepath = perm_dialog.attr('filepath');
     if (selected_user && (selected_user.length > 0) && (selected_user in all_users)) { // sanity check that a user is actually selected (and exists)
-        let expected_user_elem_id = `permdialog_file_user_${selected_user}`
+        let expected_user_elem_id = `permdialog_file_user_${selected_user}`;
         if (file_permission_users.find(`#${expected_user_elem_id}`).length === 0) { // if such a user element doesn't already exist
-            new_user_elem = make_user_elem('permdialog_file_user', selected_user)
-            file_permission_users.append(new_user_elem)
+            new_user_elem = make_user_elem('permdialog_file_user', selected_user);
+            file_permission_users.append(new_user_elem);
         }
     }
-})
-perm_add_user_select.find('span').hide()// Cheating a bit - just show the button from the user select; hide the part that displays the username.
+});
 
+// Apply inline styling to the Add User button to make it smaller
+perm_add_user_select.find('button').css({
+    'font-size': '10px',
+    'padding': '2px 6px',
+    'width': 'auto',
+    'height': 'auto',
+    'margin': '2px'
+});
 
+perm_add_user_container.append(perm_add_user_select);
+//perm_dialog.append(perm_add_user_container);
 // -- Make button to remove currently-selected user; also make some dialogs that may pop up when user clicks this. --
 
 // Make a dialog which shows up when they're not allowed to remove that user from that file (because of inheritance)
@@ -258,14 +279,59 @@ perm_remove_user_button.click(function () {
 
 // --- Append all the elements to the permissions dialog in the right order: --- 
 //perm_dialog.append(change_log_div)
-perm_dialog.append(obj_name_div)
-perm_dialog.append($('<div id="permissions_user_title">Select a user or group name to view permissions:</div>'))
-perm_dialog.append(file_permission_users)
-perm_dialog.append(perm_add_user_select)
-perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
-perm_dialog.append(grouped_permissions)
-perm_dialog.append(advanced_expl_div)
-perm_dialog.append(change_log_div)
+//perm_dialog.append(obj_name_div)
+perm_dialog.prepend(objectPathDropdown);
+perm_dialog.append($('<div id="permissions_intro"><strong>Here are the steps for changing this file\'s permissions:</strong></div>'));
+
+// Create a flex container for Step 1 text and buttons
+let step1Container = $('<div id="step1Container" style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 10px;"></div>');
+
+// Create the "Step 1" and "Select a user..." text
+let step1Text = $('<div><strong><span style="color: blue;">Step 1:</span></strong> Select a user or group name to view permissions:</div>');
+
+// Create a container for the buttons with smaller size
+let buttonContainer = $('<div style="display: flex; gap: .5px;"></div>');
+
+// Create "Add User" and "Remove User" buttons with specific styling
+let addUserButton = perm_add_user_select.find('button').css({
+    'font-size': '10px',
+    'padding': '2px 6px',
+    'width': 'auto',
+    'height': 'auto'
+});
+
+let removeUserButton = perm_remove_user_button.css({
+    'font-size': '10px',
+    'padding': '2px 6px',
+    'width': 'auto',
+    'height': 'auto'
+});
+
+// Append both buttons to the button container
+buttonContainer.append(addUserButton);
+buttonContainer.append(removeUserButton);
+
+// Append text and button container to step1Container
+step1Container.append(step1Text);
+step1Container.append(buttonContainer);
+
+// Append the entire step1Container to the permissions dialog
+perm_dialog.append(step1Container);
+
+// Append remaining elements to the dialog
+perm_dialog.append(file_permission_users);
+
+let step2Text = $(`
+    <div style="margin-top: 10px;">
+        <strong><span style="color: blue;">Step 2:</span></strong> Set permissions for the selected user or group:
+        <div style="font-size: 12px; color: #666; margin-top: 5px;">Note: Deny will overwrite Allow permissions.</div>
+    </div>
+`);
+perm_dialog.append(step2Text); // Append Step 2 description and note
+
+perm_dialog.append(grouped_permissions);
+perm_dialog.append(advanced_expl_div);
+perm_dialog.append(change_log_div);
 
 // --- Additional logic for reloading contents when needed: ---
 //Define an observer which will propagate perm_dialog's filepath attribute to all the relevant elements, whenever it changes:

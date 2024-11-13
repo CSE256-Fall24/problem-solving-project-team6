@@ -243,22 +243,54 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     if (which_groups === null) {
         which_groups = perm_groupnames;
     }
-
-    // For each permission group, create a row with checkboxes and tooltips
-    for (let g of which_groups) {
-        let row = $(`<tr id="${id_prefix}_row_${g}">
-            <td id="${id_prefix}_${g}_name">${g}</td>
+    const permissionDescriptions = {
+        Full_control: "Grants full control over the file",
+        Modify: "Change file",
+        Write: "Change contents of file",
+        Read_Execute: "View and Execute file",
+        Read: "View file",
+        Special_permissions: "Includes additional, specific permissions"
+    };
+    
+    const hierarchicalPermissions = [
+        { name: 'Full_control', children: [] },
+        { name: 'Modify', children: ['Write'] },
+        { name: 'Read_Execute', children: ['Read'] },
+        { name: 'Special_permissions', children: [] }
+    ];
+    
+    // Generate rows with hierarchy
+    for (let permission of hierarchicalPermissions) {
+        let parentRow = $(`<tr id="${id_prefix}_row_${permission.name}">
+            <td id="${id_prefix}_${permission.name}_name" style="font-weight: bold;">${permission.name} <span style="font-size: 12px; color: #666;">(${permissionDescriptions[permission.name] || ''})</span></td>
         </tr>`);
-
-        // For each permission type ('allow' and 'deny'), add checkboxes with tooltips
+    
+        // Add checkboxes to the parent row
         for (let ace_type of ['allow', 'deny']) {
-            const title = tooltipMessages[g] || ''; // Set the tooltip message
-            row.append(`<td id="${id_prefix}_${g}_${ace_type}_cell">
-                <input type="checkbox" id="${id_prefix}_${g}_${ace_type}_checkbox" ptype="${ace_type}" class="groupcheckbox" group="${g}" title="${title}">
+            parentRow.append(`<td id="${id_prefix}_${permission.name}_${ace_type}_cell">
+                <input type="checkbox" id="${id_prefix}_${permission.name}_${ace_type}_checkbox" ptype="${ace_type}" class="groupcheckbox" group="${permission.name}" title="${tooltipMessages[permission.name] || ''}">
             </td>`);
         }
-
-        group_table.append(row);
+    
+        // Append parent row
+        group_table.append(parentRow);
+    
+        // Add child rows if any
+        for (let childPermission of permission.children) {
+            let childRow = $(`<tr id="${id_prefix}_row_${childPermission}" style="padding-left: 20px;">
+                <td id="${id_prefix}_${childPermission}_name" style="padding-left: 20px;">${childPermission} <span style="font-size: 12px; color: #666;">(${permissionDescriptions[childPermission] || ''})</span></td>
+            </tr>`);
+    
+            // Add checkboxes to the child row
+            for (let ace_type of ['allow', 'deny']) {
+                childRow.append(`<td id="${id_prefix}_${childPermission}_${ace_type}_cell">
+                    <input type="checkbox" id="${id_prefix}_${childPermission}_${ace_type}_checkbox" ptype="${ace_type}" class="groupcheckbox" group="${childPermission}" title="${tooltipMessages[childPermission] || ''}">
+                </td>`);
+            }
+    
+            // Append child row under the parent
+            group_table.append(childRow);
+        }
     }
 
     // Initialize tooltips
