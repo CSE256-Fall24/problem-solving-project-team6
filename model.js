@@ -218,3 +218,105 @@ function remove_all_perms_for_user(file, user) {
   file.acl = file.acl.filter(ace => ace.who !==user)
   emitState()
 }
+
+// encode the current state as a dictionary
+function getStateAsDict() {
+  perm_state = []
+
+  // loop through all the users and files
+  for(u in all_users) {
+    for(f in path_to_file) {
+
+      // set up an object to store the data in
+      entry = {}
+      entry["path_to_file"] = f
+      entry["user"] = u
+      perms = []
+
+      file = path_to_file[f]
+      // console.log("\nUser ACL: ", u, f)
+      
+      // go through all the file permissions set - if ace is a permission on the current user, then store it
+      for(let ace of file.acl) {
+        if (( typeof (ace.who) === 'string') && (u ===  ace.who)) {
+          perm = {}
+          perm['permission'] = ace.permission
+          perm['is_allow_ace'] = ace.is_allow_ace
+
+          perms.push(perm)
+        }
+      }
+
+      entry["permissions"] = perms
+      perm_state.push(entry)
+    }
+  }
+
+  // console.log(JSON.stringify(perm_state))
+  return perm_state
+}
+
+function setStateFromDict(perm_state) {
+  // this function restores the state to whatever is in perm_state
+  // for all the pairs of users and files
+  for (pairIndex in perm_state) {
+    file_user_pair = perm_state[pairIndex]
+
+    // create the total list of permissions that could possibly be set
+    permissionsSet = []
+    for (p of Object.values(permissions)) {
+      permissionsSet.push(p+"_allow")
+      permissionsSet.push(p+"_deny")
+    }
+
+    
+    addedPermissions = [] // keep track of which permissions have been set, so we can remove other changed ones
+    let file_obj = path_to_file[file_user_pair['path_to_file']];
+    let user = all_users[file_user_pair['user']];
+
+    // set the permissions in perm_state as the current ones
+    for (p in file_user_pair['permissions']) {
+      let perm_name = file_user_pair['permissions'][p]['permission']
+      let is_allow_ace = file_user_pair['permissions'][p]['is_allow_ace'];
+
+      // permissions can be explicitly allowed or denied, so we need to track which
+      if (is_allow_ace) {
+        addedPermissions.push(perm_name + "_allow")
+      } else {
+        addedPermissions.push(perm_name + "_deny")
+      }
+
+      //  set the relevant permission on the current model
+      add_permissons(file_obj, user, [perm_name], is_allow_ace);
+    }
+
+    // determine which permissions need to be explicitly removed by comparing added set against what the full set of possible permissions
+    addedSet = new Set(addedPermissions);
+    removedSet = new Set(permissionsSet);
+    is = addedSet.intersection(removedSet);
+    
+    // remove permissions that were added from the removed set
+    is.forEach(value => {
+      removedSet.delete(value);
+    });
+    // console.log("intersection:", addedSet.intersection(removedSet));
+    // console.log("added: " + Array.from(addedSet), addedPermissions);
+    // console.log("removed: " + Array.from(removedSet), permissionsSet);
+
+    //  remove the permissions that weren't set in perm_state in case changes have been made in the current state
+     for (perm_name of removedSet) {
+      let is_allow_ace = false
+
+      if (perm_name.endsWith("_allow")){
+        perm_name = perm_name.slice(0, -6)
+        is_allow_ace = true
+      } else {
+        perm_name = perm_name.slice(0, -5)
+        is_allow_ace = false
+      }
+
+      remove_permissions(file_obj, user, [perm_name], is_allow_ace);
+      // console.log("remove ", perm_name)
+    }
+  }
+}

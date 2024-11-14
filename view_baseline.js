@@ -55,13 +55,13 @@ perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
     height: 600,
     width: 600,
     buttons: [
-        {
-            text: "Undo",
-            id: "perm-dialog-undo-button",
-            click: function () {
-                undo();
-            }
-        },
+        // {
+        //     text: "Undo",
+        //     id: "perm-dialog-undo-button",
+        //     click: function () {
+        //         undo();
+        //     }
+        // },
         {
             text: "Reset",
             id: "perm-dialog-reset-button",
@@ -92,6 +92,7 @@ perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
 
         // Move the buttons to their respective containers
         $('#perm-dialog-undo-button, #perm-dialog-reset-button').appendTo('.left-buttons');
+        $('#perm-dialog-undo-button').remove();
         $('#perm-dialog-ok-button, #perm-dialog-advanced-button').appendTo('.right-buttons');
 
         // Reapply the blue-button class to ensure the OK button is styled correctly
@@ -144,7 +145,7 @@ let objectPathDropdown = $(`
 `);
 
 //Make the div with the explanation about special permissions/advanced settings:
-advanced_expl_div = $('<div id="permdialog_advanced_explantion_text" style="margin-top: 15px;"><strong><span style="color: blue;">Step 3:</span></strong> For <strong>special permissions</strong> or <strong>advanced settings</strong>, click <strong>Advanced</strong>.</div>');
+advanced_expl_div = $('<div id="permdialog_advanced_explantion_text" style="margin-top: 15px;"><strong><span style="color: blue;">Step 3:</span></strong> For <strong>special permissions (inheritance) </strong> or <strong>advanced settings</strong>, click <strong>Advanced</strong>.</div>');
 // Make the (grouped) permission checkboxes table:
 grouped_permissions = define_grouped_permission_checkboxes('permdialog_grouped_permissions')
 grouped_permissions.addClass('section') // add a 'section' class to the grouped_permissions element. This class adds a bit of spacing between this element and the next.
@@ -324,7 +325,7 @@ perm_dialog.append(file_permission_users);
 let step2Text = $(`
     <div style="margin-top: 10px;">
         <strong><span style="color: blue;">Step 2:</span></strong> Set permissions for the selected user or group:
-        <div style="font-size: 12px; color: #666; margin-top: 5px;">Note: Deny will overwrite Allow permissions.</div>
+        <div style="font-size: 13px; color: #3CCF4E; margin-top: 5px;"> <strong> Note: Deny overwrites Allow permissions.</strong> </div>
     </div>
 `);
 perm_dialog.append(step2Text); // Append Step 2 description and note
@@ -894,13 +895,13 @@ $('#survey-form').submit(function () {
     event.preventDefault();
 })
 
-$(document).ready(function () {
-    $('#permdialog_grouped_permissions_Read_name').attr('title', 'Allows the user access to view the files contents');
-    $('#permdialog_grouped_permissions_Write_name').attr('title', 'Allows the user to change the contents of the file');
-    $('#permdialog_grouped_permissions_Read_Execute_name').attr('title', 'Allows the user access to view and execute the file');
-    $('#permdialog_grouped_permissions_Modify_name').attr('title', 'Allows the user to change the file')
-    $('#permdialog_grouped_permissions_Full_control_name').attr('title', 'Allows the user full control to the entire file')
+// $(document).ready(function () {
+//     $('#permdialog_grouped_permissions_Read_name').attr('title', 'Allows the user access to view the files contents');
+//     $('#permdialog_grouped_permissions_Write_name').attr('title', 'Allows the user to change the contents of the file');
+//     $('#permdialog_grouped_permissions_Read_Execute_name').attr('title', 'Allows the user access to view and execute the file');
+//     $('#permdialog_grouped_permissions_Modify_name').attr('title', 'Allows the user to change the file')
+//     $('#permdialog_grouped_permissions_Full_control_name').attr('title', 'Allows the user full control to the entire file')
 
-    $(document).tooltip();
+//     $(document).tooltip();
 
-});
+// });

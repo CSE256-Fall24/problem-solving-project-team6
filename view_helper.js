@@ -244,7 +244,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         which_groups = perm_groupnames;
     }
     const permissionDescriptions = {
-        Full_control: "Grants full control over the file",
+        Full_control: "Full control, can access and make changes",
         Modify: "Change file",
         Write: "Change contents of file",
         Read_Execute: "View and Execute file",

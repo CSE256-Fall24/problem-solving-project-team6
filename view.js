@@ -119,3 +119,10 @@ $(document).ready(function() {
 // ---- Assign unique ids to everything that doesn't have an ID ----
 $('#html-loc').find('*').uniqueId() 
 
+let initialState = getStateAsDict();
+
+$('#perm-dialog-reset-button').click(function() {
+    setStateFromDict(initialState); // Reset to initial state
+    alert("Permissions have been reset to the original state."); 
+});
+

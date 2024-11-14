@@ -24,7 +24,6 @@
 
 <body>
     <div id="inner-body">
-
         <div id="mturk-top-banner-drop-down-content">
             <p id="scenario_context">
                 <!-- The user <code>employee3</code> has recently been fired.
@@ -87,22 +86,44 @@
                 <!-- div where file and folder structure will be generated:-->
                 <div id="filestructure"></div>
                 <!-- structure for Permission Entry dialog: -->
-
-                <div title="Permission Entry" id="permentry">
-                    <div id="perm_entry_inheritance_explanation" style="display:none" class="section">This permission is
-                        inherited from the parent object. Make changes here to override the inherited permissions.</div>
-                    <span id="perm_entry_name_text">Name: </span>
-                    <span id="perm_entry_username" class="ui-widget-content section"
-                        style="width:200px;display:inline-block;"></span>
-                    <button id="perm_entry_change_user" class="ui-button ui-widget ui-corner-all">Change...</button>
-                    <table id="perm_entry_table" class="ui-widget-content section">
-                        <tr id="perm_entry_header">
-                            <th id="perm_entry_header_p" width="99%">Permissions</th>
-                            <th id="perm_entry_header_allow">Allow</th>
-                            <th id="perm_entry_header_deny">Deny</th>
-                        </tr>
-                    </table>
+                <div id = "side-by-side-container">
+                    <div id = "permentry" title = "Permission Entry">
+                        <h2> Permissions Panel</h2>
+                        <div id="perm_entry_inheritance_explanation" style="display:none" class="section">This permission is
+                        inherited from the parent object. Make changes here to override the inherited permissions.
+                        </div>
+                        <span id="perm_entry_name_text">Name: </span>
+                        <span id="perm_entry_username" class="ui-widget-content section"
+                            style="width:200px;display:inline-block;"></span>
+                        <button id="perm_entry_change_user" class="ui-button ui-widget ui-corner-all">Change...</button>
+                        <table id="perm_entry_table" class="ui-widget-content section">
+                            <tr id="perm_entry_header">
+                                <th id="perm_entry_header_p" width="99%">Permissions</th>
+                                <th id="perm_entry_header_allow">Allow</th>
+                                <th id="perm_entry_header_deny">Deny</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- User Guide Modal -->
+                    <div id="userGuideModal" class="user-guide-content">
+                        <!-- <div class="user-guide-content">
+                        <span class="user-guide-close">&times;</span> -->
+                        <h2>User Guide</h2>
+                        <p>This guide provides instructions for managing file permissions:</p>
+                        <ul>
+                            <li><i class="fa fa-cog"></i> <strong>Step 1:</strong> Click the <strong>gear icons</strong> to access the file permissions for any file or folder.</li>
+                            <li><strong>Step 2:</strong> Update permissions as necessary NOTE: deny overrides allow!!!</li>
+                            <li><strong>Step 3:</strong> Press the "Save Changes" button to keep the changes applied.</li>
+                            <br>
+                            <li>To adjust permissions, select a user from the list and update the allow/deny checkboxes.</li>
+                            <li>Use the "Advanced" button for detailed permission settings and inheritance options.</li>
+                            <li>Refer to the "Effective Permissions" tab for a summary of user access.</li>
+                        </ul>
+                    </div>
                 </div>
+                </div>
+            </div>
+                    
                 <!-- structure for the Advanced dialog: -->
                 <div title="Advanced Security Settings" id="advdialog" style="overflow:hidden">
                     <div id="advtabs">
@@ -210,24 +231,6 @@
         </div>
         <button id="userGuideButton" class="ui-button ui-widget ui-corner-all">User Guide</button>
     </div>
-    <!-- User Guide Modal -->
-    <div id="userGuideModal" class="user-guide-modal">
-        <div class="user-guide-content">
-            <span class="user-guide-close">&times;</span>
-            <h2>User Guide</h2>
-            <p>This guide provides instructions for managing file permissions:</p>
-            <ul>
-                <li><i class="fa fa-cog"></i> <strong>Step 1:</strong> Click the <strong>gear icons</strong> to access the file permissions for
-                    any file or folder.</li>
-                <li><strong>Step 2:</strong> Update permissions as necessary NOTE: deny overrides allow</li>
-                <li><strong>Step 3:</strong> Press the "Save Changes" button to keep the changes applied.</li>
-                <br>
-                <li>To adjust permissions, select a user from the list and update the allow/deny checkboxes.</li>
-                <li>Use the "Advanced" button for detailed permission settings and inheritance options.</li>
-                <li>Refer to the "Effective Permissions" tab for a summary of user access.</li>
-            </ul>
-        </div>
-    </div>
     <script>
         // JavaScript for handling the User Guide modal
         const userGuideModal = document.getElementById('userGuideModal');
@@ -324,7 +327,6 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-
         .user-guide-content {
             background-color: #fff;
             margin: 15% auto;
@@ -349,6 +351,7 @@
             text-decoration: none;
             cursor: pointer;
         }
+        
     </style>
 </body>
 
