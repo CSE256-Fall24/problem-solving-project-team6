@@ -34,3 +34,8 @@ div#ui-id-45 {
     margin: 20px;
     margin-left: 25px;
 }
+
+div#html-loc {
+    display: flex;
+    justify-content: space-between;
+}

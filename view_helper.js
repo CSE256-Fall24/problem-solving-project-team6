@@ -251,43 +251,43 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         Read: "View file",
         Special_permissions: "Includes additional, specific permissions"
     };
-    
+
     const hierarchicalPermissions = [
         { name: 'Full_control', children: [] },
         { name: 'Modify', children: ['Write'] },
         { name: 'Read_Execute', children: ['Read'] },
         { name: 'Special_permissions', children: [] }
     ];
-    
+
     // Generate rows with hierarchy
     for (let permission of hierarchicalPermissions) {
         let parentRow = $(`<tr id="${id_prefix}_row_${permission.name}">
             <td id="${id_prefix}_${permission.name}_name" style="font-weight: bold;">${permission.name} <span style="font-size: 12px; color: #666;">(${permissionDescriptions[permission.name] || ''})</span></td>
         </tr>`);
-    
+
         // Add checkboxes to the parent row
         for (let ace_type of ['allow', 'deny']) {
             parentRow.append(`<td id="${id_prefix}_${permission.name}_${ace_type}_cell">
                 <input type="checkbox" id="${id_prefix}_${permission.name}_${ace_type}_checkbox" ptype="${ace_type}" class="groupcheckbox" group="${permission.name}" title="${tooltipMessages[permission.name] || ''}">
             </td>`);
         }
-    
+
         // Append parent row
         group_table.append(parentRow);
-    
+
         // Add child rows if any
         for (let childPermission of permission.children) {
-            let childRow = $(`<tr id="${id_prefix}_row_${childPermission}" style="padding-left: 20px;">
+            let childRow = $(`<tr id="${id_prefix}_row_${childPermission}" style="padding-left: 20px; font-weight: bold;">
                 <td id="${id_prefix}_${childPermission}_name" style="padding-left: 20px;">${childPermission} <span style="font-size: 12px; color: #666;">(${permissionDescriptions[childPermission] || ''})</span></td>
             </tr>`);
-    
+
             // Add checkboxes to the child row
             for (let ace_type of ['allow', 'deny']) {
                 childRow.append(`<td id="${id_prefix}_${childPermission}_${ace_type}_cell">
                     <input type="checkbox" id="${id_prefix}_${childPermission}_${ace_type}_checkbox" ptype="${ace_type}" class="groupcheckbox" group="${childPermission}" title="${tooltipMessages[childPermission] || ''}">
                 </td>`);
             }
-    
+
             // Append child row under the parent
             group_table.append(childRow);
         }
@@ -681,4 +681,4 @@ $('#filestructure').css({
     'width': '49%',
     'vertical-align': 'top'
 })
-$('#filestructure').after('<div id="sidepanel" style="display:inline-block;width:49%"></div>')
+//$('#filestructure').after('<div id="sidepanel" style="display:inline-block;width:49%"></div>')

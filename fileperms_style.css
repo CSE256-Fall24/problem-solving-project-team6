@@ -19,6 +19,8 @@
 }
 
 
+
+
 #mturk-top-banner-drop-down-content {
     position: absolute;
     width: 99%;
@@ -51,14 +53,18 @@
     margin-bottom: 10px;
     font-size: 16px;
 }
+
 #permissions_step1 {
     font-weight: bold;
 }
+
 #permissions_step1,
 #permissions_user_title {
     display: inline-block;
-    margin-right: 5px; /* Optional: adds spacing between elements */
+    margin-right: 5px;
+    /* Optional: adds spacing between elements */
 }
+
 #permissions_step_container {
     display: flex;
     justify-content: space-between;
@@ -68,16 +74,27 @@
 
 #perm_add_user_select,
 #perm_remove_user {
-    font-size: 10px; /* Smaller font size */
-    padding: 2px 6px; /* Smaller padding */
-    width: auto; /* Ensures the button auto-adjusts */
-    height: auto; /* Ensures the button height is minimal */
-    margin: 2px; /* Adds a little spacing */
+    font-size: 10px;
+    /* Smaller font size */
+    padding: 2px 6px;
+    /* Smaller padding */
+    width: auto;
+    /* Ensures the button auto-adjusts */
+    height: auto;
+    /* Ensures the button height is minimal */
+    margin: 2px;
+    /* Adds a little spacing */
 }
+
 #perm_add_user_container #perm_add_user {
-    font-size: 10px; /* Smaller font size */
-    padding: 2px 6px; /* Smaller padding */
-    width: auto; /* Ensures the button auto-adjusts */
-    height: auto; /* Ensures the button height is minimal */
-    margin: 2px; /* Adds a little spacing */
+    font-size: 10px;
+    /* Smaller font size */
+    padding: 2px 6px;
+    /* Smaller padding */
+    width: auto;
+    /* Ensures the button auto-adjusts */
+    height: auto;
+    /* Ensures the button height is minimal */
+    margin: 2px;
+    /* Adds a little spacing */
 }

@@ -145,7 +145,7 @@ let objectPathDropdown = $(`
 `);
 
 //Make the div with the explanation about special permissions/advanced settings:
-advanced_expl_div = $('<div id="permdialog_advanced_explantion_text" style="margin-top: 15px;"><strong><span style="color: blue;">Step 3:</span></strong> For <strong>special permissions (inheritance) </strong> or <strong>advanced settings</strong>, click <strong>Advanced</strong>.</div>');
+advanced_expl_div = $('<div id="permdialog_advanced_explantion_text" style="margin-top: 15px;"><strong><span style="color: blue; font-size: 20px;">Step 3:</span></strong> For <strong>special permissions (inheritance) </strong> or <strong>advanced settings</strong>, click <strong>Advanced</strong>.</div>');
 // Make the (grouped) permission checkboxes table:
 grouped_permissions = define_grouped_permission_checkboxes('permdialog_grouped_permissions')
 grouped_permissions.addClass('section') // add a 'section' class to the grouped_permissions element. This class adds a bit of spacing between this element and the next.
@@ -288,7 +288,7 @@ perm_dialog.append($('<div id="permissions_intro"><strong>Here are the steps for
 let step1Container = $('<div id="step1Container" style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 10px;"></div>');
 
 // Create the "Step 1" and "Select a user..." text
-let step1Text = $('<div><strong><span style="color: blue;">Step 1:</span></strong> Select a user or group name to view permissions:</div>');
+let step1Text = $('<div><strong><span style="color: blue; font-size: 20px;">Step 1:</span></strong> Select a user or group name to view permissions:</div>');
 
 // Create a container for the buttons with smaller size
 let buttonContainer = $('<div style="display: flex; gap: .5px;"></div>');
@@ -324,8 +324,8 @@ perm_dialog.append(file_permission_users);
 
 let step2Text = $(`
     <div style="margin-top: 10px;">
-        <strong><span style="color: blue;">Step 2:</span></strong> Set permissions for the selected user or group:
-        <div style="font-size: 13px; color: #3CCF4E; margin-top: 5px;"> <strong> Note: Deny overwrites Allow permissions.</strong> </div>
+        <strong><span style="color: blue; font-size: 20px;">Step 2:</span></strong> Set permissions for the selected user or group:
+        <div style="font-size: 15px; color: #FF0000; margin-top: 5px;"> <strong> Note: Deny overwrites Allow permissions.</strong> </div>
     </div>
 `);
 perm_dialog.append(step2Text); // Append Step 2 description and note
@@ -582,6 +582,8 @@ $('#adv_perm_inheritance').change(function () {
         })
     }
 })
+
+
 
 
 // listen for changes to "replace..." checkbox:

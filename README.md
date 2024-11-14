@@ -11,6 +11,14 @@ Push to repo...
 11/10 - Jonas Schwab:
 - Changed 'Advanced' button to 'Advanced Permissions' to improve scent.
 - Failed to change hover states or undo button functionality
+- put user quide next to files panel
+- fixed css of user guide
+- Failed to move panel next to permissions panel when open
+- Moved User Guide next to file display
+- changed css of deny statement to have stronger scent
+- changed css of permission labels 
+- edited user guide to say that deny permissions are also inherited by groups and that overrides
+
 
 Jalen Patel - Changes (sorry for the poor formatting, it's in bullets on preview)
 	⁃	brainstormed initial implementation of logging/displaying changes and adding undo/redo features - using stacks, getElementById, addEventListener, etc.
