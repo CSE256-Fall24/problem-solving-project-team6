@@ -47,3 +47,10 @@ Jalen Patel - Changes (sorry for the poor formatting, it's in bullets on preview
 	⁃	made a HTML/CSS styled logMessage for "remove user" and passed it into logAction
 	⁃	some other stuff / functions
 	⁃	(some changes took many iterations to figure out before i pushed. just adding, changing, and moving code around to fix bugs. also, i initially coded certain things then upgraded them by deleting my original code and writing completely different code before i pushed (for example, initial display/format of changes in change log versus final display/format))
+
+Luke 11/14
+- Fixed add user button
+- Wording changes in user guide and perm dialog
+- Adjustments to spacing in perm dialog to improve organization
+- Removed weird empty div that was hard to track down
+- Perm dialog pops up such that user guide is still visible

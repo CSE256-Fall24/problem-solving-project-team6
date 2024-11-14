@@ -45,6 +45,7 @@ $(document).ready(() => {
     } else {
         console.error("No scenario tag provided in the URL.");
     }
+    $('#perm_add_user_field').remove();
 });
 
 
@@ -54,6 +55,11 @@ $(document).ready(() => {
 perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
     height: 600,
     width: 600,
+    position: {
+        my: "left top",  // Align the left side of the dialog with the left side of the screen
+        at: "left+20 top+50", // Position it 20px from the left and 50px from the top
+        of: window // Set position relative to the window
+    },
     buttons: [
         // {
         //     text: "Undo",
@@ -85,6 +91,8 @@ perm_dialog = define_new_dialog('permdialog', title = 'Permissions', options = {
         }
     ],
     create: function () {
+        //const objectPath = perm_dialog.attr('filepath') || "/default/path";
+        //$(this).dialog("option", "title", `Permissions for Object Path: ${objectPath}`);
         // Wrap buttons in left and right containers
         $(this).parent().find('.ui-dialog-buttonpane').wrapInner('<div class="button-container" style="width: 100%; display: flex; justify-content: space-between;"></div>');
         $(this).parent().find('.ui-dialog-buttonpane .button-container').prepend('<div class="left-buttons"></div>');
@@ -134,15 +142,14 @@ let change_log_div = $(`
 // If you pass in valid HTML to $(), it will *create* elements instead of selecting them. (You still have to append them, though)
 
 // Create the dropdown for Object Path with a smaller width and adjusted font size for options
-let objectPathDropdown = $(`
+// Display the Object Path as static text instead of a dropdown
+let objectPathDisplay = $(`
     <div style="display: flex; align-items: center; margin-bottom: 10px;">
-        <label for="objectPathSelect" style="font-weight: bold; margin-right: 5px; font-size: 12.5px;">Object Path:</label>
-        <select id="objectPathSelect" style="width: 60%; padding: 1px; font-size: 12px;">
-            <option value="/C/presentation_documents">/C/presentation_documents</option>
-            <!-- Add more paths here if needed -->
-        </select>
+        <label for="objectPathDisplay" style="font-weight: bold; margin-right: 5px; font-size: 14px;">Object Path:</label>
+        <span id="objectPathDisplay" style="width: 60%; padding: 1px; font-size: 14px;">/C/presentation_documents</span>
     </div>
 `);
+
 
 //Make the div with the explanation about special permissions/advanced settings:
 advanced_expl_div = $('<div id="permdialog_advanced_explantion_text" style="margin-top: 15px;"><strong><span style="color: blue; font-size: 20px;">Step 3:</span></strong> For <strong>special permissions (inheritance) </strong> or <strong>advanced settings</strong>, click <strong>Advanced</strong>.</div>');
@@ -185,7 +192,7 @@ perm_add_user_select.find('button').css({
 });
 
 perm_add_user_container.append(perm_add_user_select);
-//perm_dialog.append(perm_add_user_container);
+perm_dialog.append(perm_add_user_container);
 // -- Make button to remove currently-selected user; also make some dialogs that may pop up when user clicks this. --
 
 // Make a dialog which shows up when they're not allowed to remove that user from that file (because of inheritance)
@@ -281,7 +288,7 @@ perm_remove_user_button.click(function () {
 // --- Append all the elements to the permissions dialog in the right order: --- 
 //perm_dialog.append(change_log_div)
 //perm_dialog.append(obj_name_div)
-perm_dialog.prepend(objectPathDropdown);
+perm_dialog.prepend(objectPathDisplay);
 perm_dialog.append($('<div id="permissions_intro"><strong>Here are the steps for changing this file\'s permissions:</strong></div>'));
 
 // Create a flex container for Step 1 text and buttons
