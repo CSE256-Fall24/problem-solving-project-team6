@@ -295,7 +295,7 @@ perm_dialog.append($('<div id="permissions_intro"><strong>Here are the steps for
 let step1Container = $('<div id="step1Container" style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 10px;"></div>');
 
 // Create the "Step 1" and "Select a user..." text
-let step1Text = $('<div><strong><span style="color: blue; font-size: 20px;">Step 1:</span></strong> Select a user or group name to view permissions:</div>');
+let step1Text = $('<div><strong><span style="color: blue; font-size: 20px;">Step 1:</span></strong> Select a user or group name to view permissions <strong>(group permissions for a file override the individuals permissions)</strong>:</div>');
 
 // Create a container for the buttons with smaller size
 let buttonContainer = $('<div style="display: flex; gap: .5px;"></div>');
