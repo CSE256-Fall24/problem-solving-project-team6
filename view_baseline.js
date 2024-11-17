@@ -45,7 +45,8 @@ $(document).ready(() => {
     } else {
         console.error("No scenario tag provided in the URL.");
     }
-    $('#perm_add_user_field').remove();
+    //$('#perm_add_user_field').remove();
+    $('#perm_add_user_field').css('display', 'none');
 });
 
 
